@@ -5,6 +5,7 @@
  */
 package UI;
 
+import Manager.ManagerTempData;
 import javax.swing.JOptionPane;
 
 /**
@@ -119,7 +120,7 @@ public class ChuyenBan extends javax.swing.JFrame {
             return;
         }
         String ban = txtTable.getText().toString().trim();
-        if(ban.equals(new OrderUI().readTable())){
+        if(ban.equals(new ManagerTempData().getTempTable())){
             JOptionPane.showMessageDialog(null, "Không được chọn bàn đang ngồi");
             this.hide();
             OrderUI a = new OrderUI();
@@ -138,8 +139,8 @@ public class ChuyenBan extends javax.swing.JFrame {
             return;
         }
         if(checkChuyenBan(ban)){
-            new Manager.ManagerBill().updateBanBill(ban, new OrderUI().readTable());
-            new Manager.ManagerOrder().updateBanOrder(ban, new OrderUI().readTable());
+            new Manager.ManagerBill().updateBanBill(ban, new ManagerTempData().getTempTable());
+            new Manager.ManagerOrder().updateBanOrder(ban, new ManagerTempData().getTempTable());
             JOptionPane.showMessageDialog(null, "Đã chuyển");
             this.hide();
             Map a = new Map();

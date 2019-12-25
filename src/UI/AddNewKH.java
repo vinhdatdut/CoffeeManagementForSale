@@ -238,7 +238,7 @@ public class AddNewKH extends javax.swing.JFrame {
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
-         TinhTien a = new TinhTien();
+        TinhTien a = new TinhTien();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         a.setVisible(true);

@@ -5,16 +5,10 @@
         <group>
             <file>file:/C:/Users/nguye/Documents/NetBeansProjects/CaffeeManagement/src/UI/Map.java</file>
             <file>file:/C:/Users/nguye/Documents/NetBeansProjects/CaffeeManagement/src/Manager/ManagerMenu.java</file>
-            <file>file:/C:/Users/nguye/Documents/NetBeansProjects/CaffeeManagement/src/UI/OrderUI.java</file>
-            <file>file:/C:/Users/nguye/Documents/NetBeansProjects/CaffeeManagement/src/Manager/ManagerKhachHang.java</file>
-            <file>file:/C:/Users/nguye/Documents/NetBeansProjects/CaffeeManagement/src/Core/Voucher.java</file>
-            <file>file:/C:/Users/nguye/Documents/NetBeansProjects/CaffeeManagement/src/UI/TinhTien.java</file>
+            <file>file:/C:/Users/nguye/Documents/NetBeansProjects/CaffeeManagement/src/Manager/ManagerDataShop.java</file>
+            <file>file:/C:/Users/nguye/Documents/NetBeansProjects/CaffeeManagement/src/ForManager/Main.java</file>
             <file>file:/C:/Users/nguye/Documents/NetBeansProjects/CaffeeManagement/src/UI/TienThua.java</file>
-            <file>file:/C:/Users/nguye/Documents/NetBeansProjects/CaffeeManagement/src/Manager/ManagerVoucher.java</file>
-            <file>file:/C:/Users/nguye/Documents/NetBeansProjects/CaffeeManagement/src/UI/AddNewKH.java</file>
-            <file>file:/C:/Users/nguye/Documents/NetBeansProjects/CaffeeManagement/src/Manager/ManagerBill.java</file>
-            <file>file:/C:/Users/nguye/Documents/NetBeansProjects/CaffeeManagement/src/Manager/ManagerOrder.java</file>
-            <file>file:/C:/Users/nguye/Documents/NetBeansProjects/CaffeeManagement/src/UI/TachDon.java</file>
+            <file>file:/C:/Users/nguye/Documents/NetBeansProjects/CaffeeManagement/src/ForManager/QLDoanhSo.java</file>
         </group>
     </open-files>
 </project-private>

@@ -7,10 +7,10 @@ package UI;
 
 import Core.Bill;
 import Core.Order;
-import Core.Voucher;
 import Manager.ManagerBill;
 import Manager.ManagerKhachHang;
 import Manager.ManagerOrder;
+import Manager.ManagerTempData;
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -30,183 +30,32 @@ import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 public class TinhTien extends javax.swing.JFrame {
     /**
      * Creates new form TinhTien
+     * @return 
      */
-    public boolean checkHaveVoucher(){
-        try {
-            String fileName = "C:\\Users\\nguye\\Desktop\\tempVoucher.dat";
-            FileReader fr = new FileReader(fileName);
-            BufferedReader br = new BufferedReader(fr);
-            String txt;
-            try {
-                if ((txt = br.readLine()) != null) {
-                    if(!txt.equals(""))
-                        return true;
-                }
-            } catch (IOException ex) {
-                Logger.getLogger(Order.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Order.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
-    }
-    public void DeleteTempVoucher(){
-        try {
-            String fileName = "C:\\Users\\nguye\\Desktop\\tempVoucher.dat";
-            FileReader fr = new FileReader(fileName);
-            BufferedReader br = new BufferedReader(fr);
-            try {
-                FileWriter fw = new FileWriter(fileName);
-                PrintWriter pw = new PrintWriter(fw);
-                pw.print("");
-                pw.close();
-                fw.close();
-            } catch (IOException ex) {
-                Logger.getLogger(TinhTien.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Order.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    public String readVoucher() {
-        try {
-            String fileName = "C:\\Users\\nguye\\Desktop\\tempVoucher.dat";
-            FileReader fr = new FileReader(fileName);
-            BufferedReader br = new BufferedReader(fr);
-            String txt;
-            try {
-                if ((txt = br.readLine()) != null) {
-                    return txt;
-                }
-            } catch (IOException ex) {
-                Logger.getLogger(Order.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Order.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return "";
-    }
-    public void writeVoucher(){
-        try {
-            String fileName = "C:\\Users\\nguye\\Desktop\\tempVoucher.dat";
-            FileReader fr = new FileReader(fileName);
-            BufferedReader br = new BufferedReader(fr);
-            try {
-                FileWriter fw = new FileWriter(fileName);
-                PrintWriter pw = new PrintWriter(fw);
-                pw.println(txtVou.getText().toString());
-                pw.close();
-                fw.close();
-            } catch (IOException ex) {
-                Logger.getLogger(TinhTien.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Order.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    public boolean checkHaveKH(){
-        try {
-            String fileName = "C:\\Users\\nguye\\Desktop\\tempNameKH.dat";
-            FileReader fr = new FileReader(fileName);
-            BufferedReader br = new BufferedReader(fr);
-            String txt;
-            try {
-                if ((txt = br.readLine()) != null) {
-                    if(!txt.equals(""))
-                        return true;
-                }
-            } catch (IOException ex) {
-                Logger.getLogger(Order.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Order.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
-    }
-    public void DeleteTempKH(){
-        try {
-            String fileName = "C:\\Users\\nguye\\Desktop\\tempNameKH.dat";
-            FileReader fr = new FileReader(fileName);
-            BufferedReader br = new BufferedReader(fr);
-            try {
-                FileWriter fw = new FileWriter(fileName);
-                PrintWriter pw = new PrintWriter(fw);
-                pw.print("");
-                pw.close();
-                fw.close();
-            } catch (IOException ex) {
-                Logger.getLogger(TinhTien.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Order.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    public String readKH() {
-        try {
-            String fileName = "C:\\Users\\nguye\\Desktop\\tempNameKH.dat";
-            FileReader fr = new FileReader(fileName);
-            BufferedReader br = new BufferedReader(fr);
-            String txt;
-            try {
-                if ((txt = br.readLine()) != null) {
-                    return txt;
-                }
-            } catch (IOException ex) {
-                Logger.getLogger(Order.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Order.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return "";
-    }
-    public void writeNameKH(){
-        try {
-            String fileName = "C:\\Users\\nguye\\Desktop\\tempNameKH.dat";
-            FileReader fr = new FileReader(fileName);
-            BufferedReader br = new BufferedReader(fr);
-            try {
-                FileWriter fw = new FileWriter(fileName);
-                PrintWriter pw = new PrintWriter(fw);
-                pw.println(txtID.getText().toString());
-                pw.close();
-                fw.close();
-            } catch (IOException ex) {
-                Logger.getLogger(TinhTien.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Order.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
     public String getBill(){
-        String makh = readKH();
-        Bill bill = new ManagerBill().findBill(new OrderUI().readTable());
+        String makh = new ManagerTempData().getTempKH();
+        Bill bill = new ManagerBill().findBill(new ManagerTempData().getTempTable());
         String kq = "";
         kq+="                        BLAS COFFEE\n";
         kq+="Địa chỉ : 182 Nguyễn Xí, Hòa Minh, Liên Chiểu, Đà Nẵng\n\n";
         kq+="                          HÓA ĐƠN\n\n";
-        if (!makh.equals("")) {
-            
+        if (!makh.equals("0")) {
             String tenkh= new ManagerKhachHang().getNameKH(makh);
-            
             kq += "              Khách hàng : " + tenkh.toUpperCase() + "\n";
         }
         kq += "    Thời gian vào : " + bill.getThoiGianVao() + "\n";
         kq += "    Thời gian ra   : " + new Map().getDateTime() + "\n\n";
-        kq+= new ManagerBill().TinhTien(new OrderUI().readTable());
+        kq+= new ManagerBill().TinhTien(new ManagerTempData().getTempTable());
         return kq;
     }
     public String process(){
-        String makh = readKH();
-        Bill bill = new ManagerBill().findBill(new OrderUI().readTable());
+        String makh = new ManagerTempData().getTempKH();
+        Bill bill = new ManagerBill().findBill(new ManagerTempData().getTempTable());
         String kq = "";
         kq+="                        BLAS COFFEE\n";
         kq+="Địa chỉ : 182 Nguyễn Xí, Hòa Minh, Liên Chiểu, Đà Nẵng\n\n";
         kq+="                          HÓA ĐƠN\n\n";
         if (!makh.equals("")) {
-            if(!new ManagerKhachHang().checkExitsKH(makh)){
-                JOptionPane.showMessageDialog(null, "Không tồn tại mã khách hàng này");
-                return "";
-            }
             
             String tenkh= new ManagerKhachHang().getNameKH(makh);
             
@@ -214,7 +63,7 @@ public class TinhTien extends javax.swing.JFrame {
         }
         kq += "    Thời gian vào : " + bill.getThoiGianVao() + "\n";
         kq += "    Thời gian ra   : " + new Map().getDateTime() + "\n\n";
-        kq+= new ManagerBill().TinhTien(new OrderUI().readTable());
+        kq+= new ManagerBill().TinhTien(new ManagerTempData().getTempTable());
         try {
             String fileName = "C:\\Users\\nguye\\Desktop\\bill.txt";
             FileReader fr = new FileReader(fileName);
@@ -228,7 +77,7 @@ public class TinhTien extends javax.swing.JFrame {
             } catch (IOException ex) {
                 Logger.getLogger(Order.class.getName()).log(Level.SEVERE, null, ex);
             }
-            new ManagerOrder().deleteOrder(new OrderUI().readTable());
+            new ManagerOrder().deleteOrder(new ManagerTempData().getTempTable());
             this.hide();
             Map a = new Map();
             a.setLocationRelativeTo(null);
@@ -237,7 +86,7 @@ public class TinhTien extends javax.swing.JFrame {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Order.class.getName()).log(Level.SEVERE, null, ex);
         }
-        new ManagerBill().deleteBill(new OrderUI().readTable());
+        new ManagerBill().deleteBill(new ManagerTempData().getTempTable());
         return kq;
     }
     public TinhTien() {
@@ -375,7 +224,7 @@ public class TinhTien extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Không tồn tại mã khách hàng này");
                 return;
             }
-            writeNameKH();
+            new ManagerTempData().writeTempKH(txtID.getText().toString().trim());
         }
         String v = txtVou.getText().toString().trim();
         if(!v.equals("")){
@@ -402,7 +251,7 @@ public class TinhTien extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Voucher này đã được sử dụng bởi người khác");
                 return;
             }
-            writeVoucher();
+            new ManagerTempData().writeTempVoucher(txtVou.getText().toString().trim());
         }
         TienThua a = new TienThua();
         a.setLocationRelativeTo(null);
@@ -447,7 +296,7 @@ public class TinhTien extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Không tồn tại mã khách hàng này");
             return;
         }
-        writeNameKH();
+        new ManagerTempData().writeTempKH(txtID.getText().toString().trim());
         String v = txtVou.getText().toString().trim();
         if(!v.equals("")){
             if(!new Manager.ManagerVoucher().checkExitsVoucher(v)){
@@ -473,7 +322,7 @@ public class TinhTien extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Voucher này đã được sử dụng bởi người khác");
                 return;
             }
-            writeVoucher();
+            new ManagerTempData().writeTempVoucher(txtVou.getText().toString().trim());
         }
         DungDiem a = new DungDiem();
         a.setLocationRelativeTo(null);

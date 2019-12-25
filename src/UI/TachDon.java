@@ -9,10 +9,9 @@ import Core.Bill;
 import Core.Order;
 import Manager.ManagerBill;
 import Manager.ManagerOrder;
-import java.awt.Font;
+import Manager.ManagerTempData;
 import java.util.ArrayList;
 import java.util.Vector;
-import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -38,7 +37,7 @@ public class TachDon extends javax.swing.JFrame {
     }
 
     public void next() {
-        ArrayList<Order> list = new ManagerOrder().findOrder(new OrderUI().readTable());
+        ArrayList<Order> list = new ManagerOrder().findOrder(new ManagerTempData().getTempTable());
         Vector head = new Vector();
         Vector data = new Vector();
         head.add("Tên món");
@@ -156,7 +155,7 @@ public class TachDon extends javax.swing.JFrame {
         // TODO add your handling code here:
         ArrayList<Order> kqNew = new ArrayList<>();
         ArrayList<Order> kqOld = new ArrayList<>();
-        int row = new ManagerOrder().countFoodInOrder(new OrderUI().readTable());
+        int row = new ManagerOrder().countFoodInOrder(new ManagerTempData().getTempTable());
         for (int i = 0; i < row; i++) {
             double temptemp=0;
             double SoLuongCu = Double.parseDouble(table.getValueAt(i, 1).toString().trim());
@@ -174,13 +173,13 @@ public class TachDon extends javax.swing.JFrame {
                 temptemp=tempNew;
             }
             if(SoLuongCu-temptemp>0){
-                Order orderOld = new Order(new OrderUI().readTable(), table.getValueAt(i, 0).toString(), SoLuongCu-temptemp);
+                Order orderOld = new Order(new ManagerTempData().getTempTable(), table.getValueAt(i, 0).toString(), SoLuongCu-temptemp);
                 kqOld.add(orderOld);
             }
         }
         if(!txtTable.getText().toString().trim().equals("")){
             String ban = txtTable.getText().toString().trim();
-            if(ban.equals(new OrderUI().readTable())){
+            if(ban.equals(new ManagerTempData().getTempTable())){
                 JOptionPane.showMessageDialog(null, "Không được chọn bàn đang ngồi");
                 return;
             }
@@ -196,11 +195,11 @@ public class TachDon extends javax.swing.JFrame {
                 i.setBan(ban);
                 new ManagerOrder().addNewOrder(i);
             }
-            new ManagerOrder().deleteOrder(new OrderUI().readTable());
+            new ManagerOrder().deleteOrder(new ManagerTempData().getTempTable());
             for(Order i:kqOld){
                 new ManagerOrder().addNewOrder(i);
             }
-            Bill bill = new Bill("", ban, new ManagerBill().getDateTime(new OrderUI().readTable()), "");
+            Bill bill = new Bill("", ban, new ManagerBill().getDateTime(new ManagerTempData().getTempTable()), "");
             new ManagerBill().addNewBill(bill);
             JOptionPane.showMessageDialog(null, "Đã tách");
             this.hide();
@@ -210,16 +209,16 @@ public class TachDon extends javax.swing.JFrame {
             a.setVisible(true);
         }else{
             for(Order i:kqNew){
-                i.setBan(new OrderUI().readTable()+"_tach");
+                i.setBan(new ManagerTempData().getTempTable()+"_tach");
                 new ManagerOrder().addNewOrder(i);
             }
-            new ManagerOrder().deleteOrder(new OrderUI().readTable());
+            new ManagerOrder().deleteOrder(new ManagerTempData().getTempTable());
             for(Order i:kqOld){
                 new ManagerOrder().addNewOrder(i);
             }
-            Bill bill = new Bill("", new OrderUI().readTable()+"_tach", new ManagerBill().getDateTime(new OrderUI().readTable()), "");
+            Bill bill = new Bill("", new ManagerTempData().getTempTable()+"_tach", new ManagerBill().getDateTime(new ManagerTempData().getTempTable()), "");
             new ManagerBill().addNewBill(bill);
-            new Map().writeTable(new OrderUI().readTable()+"_tach");
+            new ManagerTempData().writeTempTable(new ManagerTempData().getTempTable()+"_tach");
             TinhTien a = new TinhTien();
             a.setLocationRelativeTo(null);
             a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);

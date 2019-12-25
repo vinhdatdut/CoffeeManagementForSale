@@ -5,6 +5,7 @@
  */
 package UI;
 
+import Manager.ManagerTempData;
 import javax.swing.JOptionPane;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
@@ -109,7 +110,7 @@ public class GopDon extends javax.swing.JFrame {
             return;
         }
         String ban = txtTable.getText().toString().trim();
-        if(ban.equals(new OrderUI().readTable())){
+        if(ban.equals(new ManagerTempData().getTempTable())){
             JOptionPane.showMessageDialog(null, "Không được chọn bàn đang ngồi");
             this.hide();
             OrderUI a = new OrderUI();
@@ -138,7 +139,7 @@ public class GopDon extends javax.swing.JFrame {
         }
         if(checkChuyenBan(ban)){
             new Manager.ManagerBill().deleteBill(ban);
-            new Manager.ManagerOrder().updateBanOrder(new OrderUI().readTable(), ban);
+            new Manager.ManagerOrder().updateBanOrder(new ManagerTempData().getTempTable(), ban);
             JOptionPane.showMessageDialog(null, "Đã gộp");
             this.hide();
             Map a = new Map();

@@ -5,8 +5,15 @@
  */
 package UI;
 
+import Core.DataShop;
 import Core.KhachHang;
 import Core.Voucher;
+import Manager.ManagerBill;
+import Manager.ManagerDataShop;
+import Manager.ManagerOrder;
+import Manager.ManagerTempData;
+import static java.awt.image.ImageObserver.ERROR;
+import static java.awt.image.ImageObserver.WIDTH;
 import javax.swing.JOptionPane;
 
 /**
@@ -75,19 +82,24 @@ public class TienThua extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(383, 383, 383)
-                        .addComponent(jLabel1))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(383, 383, 383)
+                                .addComponent(jLabel1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(65, 65, 65)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtMoney, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(35, 35, 35)
+                                .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(36, 36, 36)
+                                .addComponent(btnBack)))
+                        .addGap(0, 99, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(65, 65, 65)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtMoney, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(35, 35, 35)
-                        .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(36, 36, 36)
-                        .addComponent(btnBack)))
-                .addContainerGap(111, Short.MAX_VALUE))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addContainerGap()
+                        .addComponent(jScrollPane1)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -109,42 +121,51 @@ public class TienThua extends javax.swing.JFrame {
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
         // TODO add your handling code here:
-        if(txtMoney.getText().toString().equals("")){
+        if (txtMoney.getText().toString().equals("")) {
             JOptionPane.showMessageDialog(null, "Nhập tiền khách đưa");
             return;
         }
         int diem = 0;
-        double tien = new Manager.ManagerOrder().getMoney(new OrderUI().readTable());
+        double tien = new Manager.ManagerOrder().getMoney(new ManagerTempData().getTempTable());
         double tienkhachdua = Double.parseDouble(txtMoney.getText().toString().trim());
-        if(tien>tienkhachdua){
+        if (tien > tienkhachdua) {
             JOptionPane.showMessageDialog(null, "Chưa đủ tiền");
             return;
         }
-        JOptionPane.showMessageDialog(null, "Trả lại khách : " + (tienkhachdua-tien));
-        KhachHang kh = new Manager.ManagerKhachHang().findKH(new TinhTien().readKH());
-        if(new TinhTien().checkHaveKH()){
-            kh.setDiem(kh.getDiem()+(int)(0.03*tien));
+        JOptionPane.showMessageDialog(null, "Trả lại khách : " + (tienkhachdua - tien));
+        if (new ManagerTempData().checkExitsKH()) {
+            KhachHang kh = new Manager.ManagerKhachHang().findKH(new ManagerTempData().getTempKH());
+            kh.setDiem(kh.getDiem() + (int) (0.03 * tien));
             new Manager.ManagerKhachHang().updateKH(kh);
         }
-        this.hide();
+        new ManagerBill().updateTrend(new ManagerTempData().getTempTable());
+        double tiengoc = new ManagerOrder().getMoneyGoc(new ManagerTempData().getTempTable());
+        double tiensaugiam = new ManagerOrder().getMoney(new ManagerTempData().getTempTable());
+        double diema = Double.parseDouble(new ManagerTempData().getTempDiem());
+        String date = new Map().getDate();
+        String day[] = date.split("-");
+        int y = Integer.parseInt(day[0]);
+        int m = Integer.parseInt(day[1]);
+        int da = Integer.parseInt(day[2]);
+        DataShop d = new DataShop(tiengoc, tiengoc - tiensaugiam - diema, diema, da, m, y);
+        new ManagerDataShop().addNewDataShop(d);
         new TinhTien().process();
-        if(new TinhTien().checkHaveVoucher()){
-            Voucher vo = new Manager.ManagerVoucher().findVoucher(new TinhTien().readVoucher());
-            if(vo.getSolandung()==1){
+        if (new ManagerTempData().checkExitsVoucher()) {
+            Voucher vo = new Manager.ManagerVoucher().findVoucher(new ManagerTempData().getTempVoucher());
+            if (vo.getSolandung() == 1) {
                 vo.setDadung("đã dùng");
                 vo.setThoidiemdung(new Map().getDateTime());
                 new Manager.ManagerVoucher().updateVoucher(vo);
             }
         }
-        if(new DungDiem().checkHaveDiem()){
-            int diemgiam = Integer.parseInt(new DungDiem().readDiem());
-            KhachHang k = new Manager.ManagerKhachHang().findKH(new TinhTien().readKH());
-            k.setDiem(k.getDiem()-diemgiam);
+        if (new ManagerTempData().checkExitsDiem()) {
+            int diemgiam = Integer.parseInt(new ManagerTempData().getTempDiem());
+            KhachHang k = new Manager.ManagerKhachHang().findKH(new ManagerTempData().getTempKH());
+            k.setDiem(k.getDiem() - diemgiam);
             new Manager.ManagerKhachHang().updateKH(k);
         }
-        new TinhTien().DeleteTempVoucher();
-        new TinhTien().DeleteTempKH();
-        new DungDiem().DeleteTempDiem();
+        new ManagerTempData().DeleteTemp();
+        this.hide();
     }//GEN-LAST:event_btnOKActionPerformed
 
     private void txtMoneyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMoneyActionPerformed
@@ -158,6 +179,7 @@ public class TienThua extends javax.swing.JFrame {
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         a.setVisible(true);
         this.hide();
+        new ManagerTempData().DeleteTemp();
     }//GEN-LAST:event_btnBackActionPerformed
 
     /**

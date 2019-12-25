@@ -11,11 +11,11 @@ import Core.Order;
 import Manager.ManagerBill;
 import Manager.ManagerMenu;
 import Manager.ManagerOrder;
+import Manager.ManagerTempData;
 import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Vector;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
@@ -217,12 +217,12 @@ public class AddFood extends javax.swing.JFrame {
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
         // TODO add your handling code here:
-        if(new ManagerOrder().checkTableEmpty(new OrderUI().readTable())){
-            Bill bill = new Bill("",new OrderUI().readTable(),new Map().getDateTime(),"");
+        if(new ManagerOrder().checkTableEmpty(new ManagerTempData().getTempTable())){
+            Bill bill = new Bill("",new ManagerTempData().getTempTable(),new Map().getDateTime(),"");
             new ManagerBill().addNewBill(bill);
         }
         
-        String ban = new OrderUI().readTable();
+        String ban = new ManagerTempData().getTempTable();
         int row = table.getSelectedRow();
         if (row == -1) {
             JOptionPane.showMessageDialog(null, " Vui lòng chọn món");

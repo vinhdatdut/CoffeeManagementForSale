@@ -10,6 +10,7 @@ import Core.Order;
 import Manager.ManagerBill;
 import Manager.ManagerMenu;
 import Manager.ManagerOrder;
+import Manager.ManagerTempData;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -31,7 +32,7 @@ public class SuaSL extends javax.swing.JFrame {
      * Creates new form SuaSL
      */
     public void next() {
-        ArrayList<Order> list = new ManagerOrder().findOrder(new OrderUI().readTable());
+        ArrayList<Order> list = new ManagerOrder().findOrder(new ManagerTempData().getTempTable());
         Vector head = new Vector();
         Vector data = new Vector();
         head.add("Tên món");
@@ -130,9 +131,9 @@ public class SuaSL extends javax.swing.JFrame {
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
         // TODO add your handling code here:
-        int row = new ManagerOrder().countFoodInOrder(new OrderUI().readTable());
+        int row = new ManagerOrder().countFoodInOrder(new ManagerTempData().getTempTable());
         ArrayList<Order> list = new ArrayList<>();
-        list = new ManagerOrder().findOrder(new OrderUI().readTable());
+        list = new ManagerOrder().findOrder(new ManagerTempData().getTempTable());
         for(int i=0;i<row;i++){
             if(table.getValueAt(i, 1).equals("")){
                 JOptionPane.showMessageDialog(null, "Vui lòng nhập số lượng đủ");

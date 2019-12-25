@@ -6,6 +6,7 @@
 package Manager;
 
 import Core.Bill;
+import Core.Menu;
 import Core.Order;
 import Core.Voucher;
 import UI.DungDiem;
@@ -83,14 +84,14 @@ public class ManagerBill {
             while (RS.next() == true) {
                 double giam = 0;
 
-                if (new TinhTien().checkHaveVoucher()) {
-                    v = new ManagerVoucher().findVoucher(new TinhTien().readVoucher());
+                if (new ManagerTempData().checkExitsVoucher()) {
+                    v = new ManagerVoucher().findVoucher(new ManagerTempData().getTempVoucher());
                     giam = v.getGiam();
                     giamtoida = v.getGiamtoida();
                 }
                 double tien = 0;
                 tien = RS.getDouble("DonGia") * RS.getDouble("SoLuong");
-                if (new TinhTien().checkHaveVoucher()) {
+                if (new ManagerTempData().checkExitsVoucher()) {
                     if (v.getApDung().equals("ALL")) {
                         tiengiam += tien * giam;
                     }
@@ -111,9 +112,9 @@ public class ManagerBill {
                 kq += "Thành tiền: " + tien + "đ\n\n";
             }
             kq += "--------------------------------------------------\n";
-            if (new TinhTien().checkHaveVoucher()) {
-                kq += "Voucher : " + new TinhTien().readVoucher() + "\n";
-                Voucher vo = new ManagerVoucher().findVoucher(new TinhTien().readVoucher());
+            if (new ManagerTempData().checkExitsVoucher()) {
+                kq += "Voucher : " + new ManagerTempData().getTempVoucher() + "\n";
+                Voucher vo = new ManagerVoucher().findVoucher(new ManagerTempData().getTempVoucher());
                 if (vo.getApDung().equals("ALL")) {
                     kq += "Giảm " + vo.getGiam() * 100 + "%" + " cho toàn bộ hóa đơn\n";
                     if (giamtoida == 0) {
@@ -150,9 +151,9 @@ public class ManagerBill {
                 kq += "--------------------------------------------------\n";
             }
             int diem = 0;
-            if (new DungDiem().checkHaveDiem()) {
-                diem = Integer.parseInt(new DungDiem().readDiem());
-                kq += " Đã sử dụng " + new DungDiem().readDiem() + " điểm tích lũy\n";
+            if (new ManagerTempData().checkExitsDiem()) {
+                diem = Integer.parseInt(new ManagerTempData().getTempDiem());
+                kq += " Đã sử dụng " + new ManagerTempData().getTempDiem() + " điểm tích lũy\n";
                 kq += "--------------------------------------------------\n";
             }
 
@@ -173,6 +174,22 @@ public class ManagerBill {
         }
         closeConnection();
         return "";
+    }
+    
+    public void updateTrend(String ban) {
+        try {
+            String sql = "select * from orderDB inner join menu on orderDB.TenMon=menu.TenMon where ban='" + ban + "'";
+            Statement sta = getConnection().createStatement();
+            ResultSet RS = sta.executeQuery(sql);
+            while (RS.next() == true) {
+                Menu m = new ManagerMenu().findMenu(RS.getString("MaMon"));
+                m.setSolandat((int) (m.getSolandat() + RS.getDouble("SoLuong")));
+                new ManagerMenu().updateMenu(m);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerOrder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        closeConnection();
     }
 
     public void addNewBill(Bill bill) {

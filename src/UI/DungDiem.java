@@ -5,16 +5,9 @@
  */
 package UI;
 
-import Core.Order;
-import Manager.ManagerKhachHang;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import Core.DataShop;
+import Manager.ManagerOrder;
+import Manager.ManagerTempData;
 import javax.swing.JOptionPane;
 
 /**
@@ -26,82 +19,11 @@ public class DungDiem extends javax.swing.JFrame {
     /**
      * Creates new form DungDiem
      */
-    public boolean checkHaveDiem(){
-        try {
-            String fileName = "C:\\Users\\nguye\\Desktop\\tempDiem.dat";
-            FileReader fr = new FileReader(fileName);
-            BufferedReader br = new BufferedReader(fr);
-            String txt;
-            try {
-                if ((txt = br.readLine()) != null) {
-                    if(!txt.equals(""))
-                        return true;
-                }
-            } catch (IOException ex) {
-                Logger.getLogger(Order.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Order.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
-    }
-    public void DeleteTempDiem(){
-        try {
-            String fileName = "C:\\Users\\nguye\\Desktop\\tempDiem.dat";
-            FileReader fr = new FileReader(fileName);
-            BufferedReader br = new BufferedReader(fr);
-            try {
-                FileWriter fw = new FileWriter(fileName);
-                PrintWriter pw = new PrintWriter(fw);
-                pw.print("");
-                pw.close();
-                fw.close();
-            } catch (IOException ex) {
-                Logger.getLogger(TinhTien.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Order.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    public String readDiem() {
-        try {
-            String fileName = "C:\\Users\\nguye\\Desktop\\tempDiem.dat";
-            FileReader fr = new FileReader(fileName);
-            BufferedReader br = new BufferedReader(fr);
-            String txt;
-            try {
-                if ((txt = br.readLine()) != null) {
-                    return txt;
-                }
-            } catch (IOException ex) {
-                Logger.getLogger(Order.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Order.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return "";
-    }
-    public void writeDiem(){
-        try {
-            String fileName = "C:\\Users\\nguye\\Desktop\\tempDiem.dat";
-            FileReader fr = new FileReader(fileName);
-            BufferedReader br = new BufferedReader(fr);
-            try {
-                FileWriter fw = new FileWriter(fileName);
-                PrintWriter pw = new PrintWriter(fw);
-                pw.println(txtDiem.getText().toString());
-                pw.close();
-                fw.close();
-            } catch (IOException ex) {
-                Logger.getLogger(TinhTien.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Order.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
     public DungDiem() {
         initComponents();
-        txtDiemKhach.setText("Quý khách đã tích được "+new Manager.ManagerKhachHang().getDiemKH(new TinhTien().readKH())+" điểm trong tài khoản");
+        txtDiemKhach.setText("Quý khách đã tích được "+new Manager.ManagerKhachHang().getDiemKH(new ManagerTempData().getTempKH())+" điểm trong tài khoản");
+        txtTien.setText("Tiền quý khách phải trả : " + new ManagerOrder().getMoney(new ManagerTempData().getTempTable()));
+        
     }
 
     /**
@@ -120,6 +42,7 @@ public class DungDiem extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         btnBack = new javax.swing.JButton();
+        txtTien = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -143,6 +66,8 @@ public class DungDiem extends javax.swing.JFrame {
             }
         });
 
+        txtTien.setText("txt tiền khách phải trả");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -154,12 +79,11 @@ public class DungDiem extends javax.swing.JFrame {
                 .addComponent(btnBack)
                 .addGap(121, 121, 121))
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(52, 52, 52)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtTien)
+                    .addComponent(txtDiemKhach)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(58, 58, 58)
-                        .addComponent(txtDiemKhach))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(52, 52, 52)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -170,9 +94,11 @@ public class DungDiem extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(75, 75, 75)
+                .addGap(46, 46, 46)
                 .addComponent(txtDiemKhach)
-                .addGap(42, 42, 42)
+                .addGap(28, 28, 28)
+                .addComponent(txtTien)
+                .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtDiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -210,14 +136,22 @@ public class DungDiem extends javax.swing.JFrame {
 
     private void btnTTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTTActionPerformed
         // TODO add your handling code here:
+        if(Integer.parseInt(txtDiem.getText().toString().trim())<=0){
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập điểm phù hợp");
+            return;
+        }
+        if(Integer.parseInt(txtDiem.getText().toString().trim())>Double.parseDouble(new ManagerOrder().getMoney(new ManagerTempData().getTempTable())+"")){
+            JOptionPane.showMessageDialog(null, "Điểm quy đổi không được lớn hơn số tiền khách trả");
+            return;
+        }
         if(!txtDiem.getText().toString().trim().equals("")){
             int diemnhap = Integer.parseInt(txtDiem.getText().toString().trim());
-            int diemcuakhach = new Manager.ManagerKhachHang().getDiemKH(new TinhTien().readKH());
+            int diemcuakhach = new Manager.ManagerKhachHang().getDiemKH(new ManagerTempData().getTempKH());
             if(diemnhap>diemcuakhach){
                 JOptionPane.showMessageDialog(null, "Điểm của khách không đủ");
                 return;
             }
-            writeDiem();
+            new ManagerTempData().writeTempDiem(txtDiem.getText().toString().trim());
         }
         TienThua a = new TienThua();
         a.setLocationRelativeTo(null);
@@ -269,5 +203,6 @@ public class DungDiem extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField txtDiem;
     private javax.swing.JLabel txtDiemKhach;
+    private javax.swing.JLabel txtTien;
     // End of variables declaration//GEN-END:variables
 }

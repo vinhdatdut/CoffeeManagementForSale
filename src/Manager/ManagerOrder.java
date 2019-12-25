@@ -1,10 +1,7 @@
 package Manager;
 
-import Core.Bill;
 import Core.Order;
 import Core.Voucher;
-import UI.DungDiem;
-import UI.TinhTien;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -178,12 +175,29 @@ public class ManagerOrder {
         closeConnection();
         return 0;
     }
+    public double getMoneyGoc(String ban) {
+        try {
+            ArrayList<Order> list = new ArrayList<>();
+            String sql = " select * from orderDB inner join menu on orderDB.TenMon=menu.TenMon where ban = '" + ban + "'";
+            Statement sta = getConnection().createStatement();
+            ResultSet RS = sta.executeQuery(sql);
+            double tientong = 0;
+            while (RS.next() == true) {
+                tientong += RS.getDouble("DonGia") * RS.getDouble("SoLuong");
+            }
+            return tientong;
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerOrder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        closeConnection();
+        return 0;
+    }
 
     public double getMoney(String ban) {
         try {
             int diem = 0;
-            if (new DungDiem().checkHaveDiem()) {
-                diem = Integer.parseInt(new DungDiem().readDiem());
+            if (new ManagerTempData().checkExitsDiem()) {
+                diem = Integer.parseInt(new ManagerTempData().getTempDiem());
             }
             ArrayList<Order> list = new ArrayList<>();
             String sql = " select * from orderDB inner join menu on orderDB.TenMon=menu.TenMon where ban = '" + ban + "'";
@@ -196,14 +210,14 @@ public class ManagerOrder {
             while (RS.next() == true) {
                 double giam = 0;
 
-                if (new TinhTien().checkHaveVoucher()) {
-                    v = new ManagerVoucher().findVoucher(new TinhTien().readVoucher());
+                if (new ManagerTempData().checkExitsVoucher()) {
+                    v = new ManagerVoucher().findVoucher(new ManagerTempData().getTempVoucher());
                     giam = v.getGiam();
                     giamtoida = v.getGiamtoida();
                 }
                 double tien = 0;
                 tien = RS.getDouble("DonGia") * RS.getDouble("SoLuong");
-                if (new TinhTien().checkHaveVoucher()) {
+                if (new ManagerTempData().checkExitsVoucher()) {
                     if (v.getApDung().equals("ALL")) {
                         tiengiam += tien * giam;
                     }

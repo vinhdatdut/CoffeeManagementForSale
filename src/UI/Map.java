@@ -5,17 +5,9 @@
  */
 package UI;
 
-import Core.Order;
+import ForManager.Login;
 import java.awt.Color;
 import java.awt.Font;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
 /**
@@ -38,6 +30,12 @@ public class Map extends javax.swing.JFrame {
         String date = "" + java.time.LocalDateTime.now();
         String word[] = date.split("T");
         date = word[0] + " " + word[1].substring(0,8);
+        return date;
+    }
+    public String getDate(){
+        String date = "" + java.time.LocalDateTime.now();
+        String word[] = date.split("T");
+        date = word[0];
         return date;
     }
 
@@ -137,25 +135,6 @@ public class Map extends javax.swing.JFrame {
         }
     }
 
-    public void writeTable(String name) {
-        try {
-            String fileName = "C:\\Users\\nguye\\Desktop\\tempTable.dat";
-            FileReader fr = new FileReader(fileName);
-            BufferedReader br = new BufferedReader(fr);
-            try {
-                FileWriter fw = new FileWriter(fileName);
-                PrintWriter pw = new PrintWriter(fw);
-                pw.println(name);
-                pw.close();
-                fw.close();
-            } catch (IOException ex) {
-                Logger.getLogger(Order.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Order.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -197,6 +176,7 @@ public class Map extends javax.swing.JFrame {
         table28 = new javax.swing.JButton();
         table29 = new javax.swing.JButton();
         table30 = new javax.swing.JButton();
+        btn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -417,6 +397,13 @@ public class Map extends javax.swing.JFrame {
             }
         });
 
+        btn.setText("Dành cho quản lý");
+        btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -480,11 +467,15 @@ public class Map extends javax.swing.JFrame {
                                 .addGap(68, 68, 68)
                                 .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(83, 114, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn)
+                .addGap(22, 22, 22))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(75, 75, 75)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -523,6 +514,8 @@ public class Map extends javax.swing.JFrame {
                         .addGap(31, 31, 31))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
+                        .addComponent(btn, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(70, 70, 70)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -551,7 +544,7 @@ public class Map extends javax.swing.JFrame {
 
     private void table1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table1ActionPerformed
         // TODO add your handling code here:
-        writeTable("1");
+        new Manager.ManagerTempData().writeTempTable("1");
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -561,7 +554,7 @@ public class Map extends javax.swing.JFrame {
 
     private void table2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table2ActionPerformed
         // TODO add your handling code here:
-        writeTable("2");
+        new Manager.ManagerTempData().writeTempTable("2");
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -571,7 +564,7 @@ public class Map extends javax.swing.JFrame {
 
     private void table3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table3ActionPerformed
         // TODO add your handling code here:
-        writeTable("3");
+        new Manager.ManagerTempData().writeTempTable("3");
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -581,7 +574,7 @@ public class Map extends javax.swing.JFrame {
 
     private void table4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table4ActionPerformed
         // TODO add your handling code here:
-        writeTable("4");
+        new Manager.ManagerTempData().writeTempTable("4");
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -596,7 +589,7 @@ public class Map extends javax.swing.JFrame {
 
     private void table5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table5ActionPerformed
         // TODO add your handling code here:
-        writeTable("5");
+        new Manager.ManagerTempData().writeTempTable("5");
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -606,7 +599,7 @@ public class Map extends javax.swing.JFrame {
 
     private void table6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table6ActionPerformed
         // TODO add your handling code here:
-        writeTable("6");
+        new Manager.ManagerTempData().writeTempTable("6");
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -616,7 +609,7 @@ public class Map extends javax.swing.JFrame {
 
     private void table7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table7ActionPerformed
         // TODO add your handling code here:
-        writeTable("7");
+        new Manager.ManagerTempData().writeTempTable("7");
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -626,7 +619,7 @@ public class Map extends javax.swing.JFrame {
 
     private void table8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table8ActionPerformed
         // TODO add your handling code here:
-        writeTable("8");
+        new Manager.ManagerTempData().writeTempTable("8");
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -636,7 +629,7 @@ public class Map extends javax.swing.JFrame {
 
     private void table9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table9ActionPerformed
         // TODO add your handling code here:
-        writeTable("9");
+        new Manager.ManagerTempData().writeTempTable("9");
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -646,7 +639,7 @@ public class Map extends javax.swing.JFrame {
 
     private void table10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table10ActionPerformed
         // TODO add your handling code here:
-        writeTable("10");
+        new Manager.ManagerTempData().writeTempTable("10");
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -656,7 +649,7 @@ public class Map extends javax.swing.JFrame {
 
     private void table11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table11ActionPerformed
         // TODO add your handling code here:
-        writeTable("11");
+        new Manager.ManagerTempData().writeTempTable("11");
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -666,7 +659,7 @@ public class Map extends javax.swing.JFrame {
 
     private void table12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table12ActionPerformed
         // TODO add your handling code here:
-        writeTable("12");
+        new Manager.ManagerTempData().writeTempTable("12");
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -676,7 +669,7 @@ public class Map extends javax.swing.JFrame {
 
     private void table13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table13ActionPerformed
         // TODO add your handling code here:
-        writeTable("13");
+        new Manager.ManagerTempData().writeTempTable("13");
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -686,7 +679,7 @@ public class Map extends javax.swing.JFrame {
 
     private void table14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table14ActionPerformed
         // TODO add your handling code here:
-        writeTable("14");
+        new Manager.ManagerTempData().writeTempTable("14");
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -696,7 +689,7 @@ public class Map extends javax.swing.JFrame {
 
     private void table15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table15ActionPerformed
         // TODO add your handling code here:
-        writeTable("15");
+        new Manager.ManagerTempData().writeTempTable("15");
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -706,7 +699,7 @@ public class Map extends javax.swing.JFrame {
 
     private void table16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table16ActionPerformed
         // TODO add your handling code here:
-        writeTable("16");
+        new Manager.ManagerTempData().writeTempTable("16");
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -716,7 +709,7 @@ public class Map extends javax.swing.JFrame {
 
     private void table17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table17ActionPerformed
         // TODO add your handling code here:
-        writeTable("17");
+        new Manager.ManagerTempData().writeTempTable("17");
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -726,7 +719,7 @@ public class Map extends javax.swing.JFrame {
 
     private void table18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table18ActionPerformed
         // TODO add your handling code here:
-        writeTable("18");
+        new Manager.ManagerTempData().writeTempTable("18");
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -736,7 +729,7 @@ public class Map extends javax.swing.JFrame {
 
     private void table19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table19ActionPerformed
         // TODO add your handling code here:
-        writeTable("19");
+        new Manager.ManagerTempData().writeTempTable("19");
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -746,7 +739,7 @@ public class Map extends javax.swing.JFrame {
 
     private void table20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table20ActionPerformed
         // TODO add your handling code here:
-        writeTable("20");
+        new Manager.ManagerTempData().writeTempTable("20");
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -756,7 +749,7 @@ public class Map extends javax.swing.JFrame {
 
     private void table21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table21ActionPerformed
         // TODO add your handling code here:
-        writeTable("21");
+        new Manager.ManagerTempData().writeTempTable("21");
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -766,7 +759,7 @@ public class Map extends javax.swing.JFrame {
 
     private void table22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table22ActionPerformed
         // TODO add your handling code here:
-        writeTable("22");
+        new Manager.ManagerTempData().writeTempTable("22");
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -776,7 +769,7 @@ public class Map extends javax.swing.JFrame {
 
     private void table23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table23ActionPerformed
         // TODO add your handling code here:
-        writeTable("23");
+        new Manager.ManagerTempData().writeTempTable("23");
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -786,7 +779,7 @@ public class Map extends javax.swing.JFrame {
 
     private void table24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table24ActionPerformed
         // TODO add your handling code here:
-        writeTable("24");
+        new Manager.ManagerTempData().writeTempTable("24");
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -796,7 +789,7 @@ public class Map extends javax.swing.JFrame {
 
     private void table25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table25ActionPerformed
         // TODO add your handling code here:
-        writeTable("25");
+        new Manager.ManagerTempData().writeTempTable("25");
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -806,7 +799,7 @@ public class Map extends javax.swing.JFrame {
 
     private void table26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table26ActionPerformed
         // TODO add your handling code here:
-        writeTable("26");
+        new Manager.ManagerTempData().writeTempTable("26");
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -816,7 +809,7 @@ public class Map extends javax.swing.JFrame {
 
     private void table27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table27ActionPerformed
         // TODO add your handling code here:
-        writeTable("27");
+        new Manager.ManagerTempData().writeTempTable("27");
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -826,7 +819,7 @@ public class Map extends javax.swing.JFrame {
 
     private void table28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table28ActionPerformed
         // TODO add your handling code here:
-        writeTable("28");
+        new Manager.ManagerTempData().writeTempTable("28");
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -836,7 +829,7 @@ public class Map extends javax.swing.JFrame {
 
     private void table29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table29ActionPerformed
         // TODO add your handling code here:
-        writeTable("29");
+        new Manager.ManagerTempData().writeTempTable("29");
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -846,13 +839,22 @@ public class Map extends javax.swing.JFrame {
 
     private void table30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table30ActionPerformed
         // TODO add your handling code here:
-        writeTable("30");
+        new Manager.ManagerTempData().writeTempTable("30");
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         a.setVisible(true);
         this.hide();
     }//GEN-LAST:event_table30ActionPerformed
+
+    private void btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActionPerformed
+        // TODO add your handling code here:
+        Login a = new Login();
+        a.setLocationRelativeTo(null);
+        a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        a.setVisible(true);
+        this.hide();
+    }//GEN-LAST:event_btnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -892,6 +894,7 @@ public class Map extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn;
     private javax.swing.JButton btnExit;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton table1;

@@ -5,22 +5,14 @@
  */
 package UI;
 
-import Core.Bill;
 import Core.Order;
 import Manager.ManagerBill;
 import Manager.ManagerOrder;
+import Manager.ManagerTempData;
 import java.awt.Color;
 import java.awt.Font;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -33,32 +25,14 @@ public class OrderUI extends javax.swing.JFrame {
     /**
      * Creates new form OrderUI
      */
-    public String readTable() {
-        try {
-            String fileName = "C:\\Users\\nguye\\Desktop\\tempTable.dat";
-            FileReader fr = new FileReader(fileName);
-            BufferedReader br = new BufferedReader(fr);
-            String txt;
-            try {
-                if ((txt = br.readLine()) != null) {
-                    return txt;
-                }
-            } catch (IOException ex) {
-                Logger.getLogger(Order.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Order.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return "";
-    }
 
     public void next() {
-        txtTimeVao.setText("Thời gian vào : " + new ManagerBill().getDateTime(readTable()));
+        txtTimeVao.setText("Thời gian vào : " + new ManagerBill().getDateTime(new ManagerTempData().getTempTable()));
         txtTimeVao.setFont(new Font("arial", Font.BOLD, 20));
-        txtTable.setText("Bàn " + readTable());
+        txtTable.setText("Bàn " + new ManagerTempData().getTempTable());
         txtTable.setFont(new Font("arial", Font.BOLD, 30));
         btnMap.setFont(new Font("arial", Font.BOLD, 20));
-        ArrayList<Order> list = new ManagerOrder().findOrder(readTable());
+        ArrayList<Order> list = new ManagerOrder().findOrder(new ManagerTempData().getTempTable());
         Vector head = new Vector();
         Vector data = new Vector();
         head.add("Tên món");
@@ -294,8 +268,8 @@ public class OrderUI extends javax.swing.JFrame {
 
     private void btnChargeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChargeActionPerformed
         // TODO add your handling code here:
-        if (new ManagerOrder().checkTableEmpty(new OrderUI().readTable())) {
-            JOptionPane.showMessageDialog(null, "Bàn trống không thể tính tiền");
+        if (new ManagerOrder().checkTableEmpty(new ManagerTempData().getTempTable())) {
+            JOptionPane.showMessageDialog(null, "Bàn trống không thể tính tiền"); 
             return;
         }
         TinhTien a = new TinhTien();
@@ -316,14 +290,14 @@ public class OrderUI extends javax.swing.JFrame {
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
-        if (new ManagerOrder().checkTableEmpty(new OrderUI().readTable())) {
+        if (new ManagerOrder().checkTableEmpty(new ManagerTempData().getTempTable())) {
             JOptionPane.showMessageDialog(null, "Bàn trống không thể hủy");
             return;
         }
         int result = JOptionPane.showConfirmDialog(null, "Bạn có thực sự muốn hủy order này?", "Confirm Box", JOptionPane.YES_NO_OPTION);
         if (result == JOptionPane.YES_OPTION) {
-            new ManagerOrder().deleteOrder(readTable());
-            new ManagerBill().deleteBill(readTable());
+            new ManagerOrder().deleteOrder(new ManagerTempData().getTempTable());
+            new ManagerBill().deleteBill(new ManagerTempData().getTempTable());
             JOptionPane.showMessageDialog(null, "Đã hủy order");
             Map a = new Map();
             a.setLocationRelativeTo(null);
@@ -344,7 +318,7 @@ public class OrderUI extends javax.swing.JFrame {
 
     private void btnChangeTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangeTableActionPerformed
         // TODO add your handling code here:
-        if (new ManagerOrder().checkTableEmpty(new OrderUI().readTable())) {
+        if (new ManagerOrder().checkTableEmpty(new ManagerTempData().getTempTable())) {
             JOptionPane.showMessageDialog(null, "Bàn trống không được chuyển");
             return;
         }
@@ -357,7 +331,7 @@ public class OrderUI extends javax.swing.JFrame {
 
     private void btnGopDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGopDonActionPerformed
         // TODO add your handling code here:
-        if (new ManagerOrder().checkTableEmpty(new OrderUI().readTable())) {
+        if (new ManagerOrder().checkTableEmpty(new ManagerTempData().getTempTable())) {
             JOptionPane.showMessageDialog(null, "Bàn trống không được gộp");
             return;
         }
@@ -370,7 +344,7 @@ public class OrderUI extends javax.swing.JFrame {
 
     private void btnTachDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTachDonActionPerformed
         // TODO add your handling code here:
-        if (new ManagerOrder().checkTableEmpty(new OrderUI().readTable())) {
+        if (new ManagerOrder().checkTableEmpty(new ManagerTempData().getTempTable())) {
             JOptionPane.showMessageDialog(null, "Bàn trống không được tách");
             return;
         }
@@ -383,7 +357,7 @@ public class OrderUI extends javax.swing.JFrame {
 
     private void btnDeleteFoodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteFoodActionPerformed
         // TODO add your handling code here:
-        if (new ManagerOrder().checkTableEmpty(new OrderUI().readTable())) {
+        if (new ManagerOrder().checkTableEmpty(new ManagerTempData().getTempTable())) {
             JOptionPane.showMessageDialog(null, "Bàn trống không có gì để xóa");
             return;
         }
@@ -393,9 +367,9 @@ public class OrderUI extends javax.swing.JFrame {
             return;
         }
         String TenMon = table.getValueAt(row, 0).toString().trim();
-        new ManagerOrder().deleteFood(TenMon, readTable());
-        if(new ManagerOrder().checkTableEmpty(new OrderUI().readTable())){
-            new Manager.ManagerBill().deleteBill(new OrderUI().readTable());
+        new ManagerOrder().deleteFood(TenMon, new ManagerTempData().getTempTable());
+        if(new ManagerOrder().checkTableEmpty(new ManagerTempData().getTempTable())){
+            new Manager.ManagerBill().deleteBill(new ManagerTempData().getTempTable());
         }
         JOptionPane.showMessageDialog(null, "Xóa thành công");
         OrderUI a = new OrderUI();
@@ -407,7 +381,7 @@ public class OrderUI extends javax.swing.JFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-        if (new ManagerOrder().checkTableEmpty(new OrderUI().readTable())) {
+        if (new ManagerOrder().checkTableEmpty(new ManagerTempData().getTempTable())) {
             JOptionPane.showMessageDialog(null, "Bàn trống không có gì để sửa");
             return;
         }
