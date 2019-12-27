@@ -12,8 +12,6 @@ import Manager.ManagerBill;
 import Manager.ManagerDataShop;
 import Manager.ManagerOrder;
 import Manager.ManagerTempData;
-import static java.awt.image.ImageObserver.ERROR;
-import static java.awt.image.ImageObserver.WIDTH;
 import javax.swing.JOptionPane;
 
 /**

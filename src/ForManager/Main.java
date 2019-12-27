@@ -35,6 +35,7 @@ public class Main extends javax.swing.JFrame {
         btnMenu = new javax.swing.JButton();
         btnMoney = new javax.swing.JButton();
         btnExit = new javax.swing.JButton();
+        btnGIve = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -73,6 +74,13 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        btnGIve.setText("Tặng voucher");
+        btnGIve.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGIveActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -86,7 +94,9 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(btnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(51, 51, 51)
                 .addComponent(btnMoney)
-                .addContainerGap(425, Short.MAX_VALUE))
+                .addGap(55, 55, 55)
+                .addComponent(btnGIve)
+                .addContainerGap(269, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnExit)
@@ -102,7 +112,8 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(btnKH, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnVoucher, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnMoney, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnMoney, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGIve, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(405, Short.MAX_VALUE))
         );
 
@@ -168,6 +179,15 @@ public class Main extends javax.swing.JFrame {
         this.hide();
     }//GEN-LAST:event_btnMoneyActionPerformed
 
+    private void btnGIveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGIveActionPerformed
+        // TODO add your handling code here:
+        TangVoucher a = new TangVoucher();
+        a.setLocationRelativeTo(null);
+        a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        a.setVisible(true);
+        this.hide();
+    }//GEN-LAST:event_btnGIveActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -205,6 +225,7 @@ public class Main extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExit;
+    private javax.swing.JButton btnGIve;
     private javax.swing.JButton btnKH;
     private javax.swing.JButton btnMenu;
     private javax.swing.JButton btnMoney;

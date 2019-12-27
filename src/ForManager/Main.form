@@ -51,7 +51,9 @@
                   <Component id="btnMenu" min="-2" pref="92" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
                   <Component id="btnMoney" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="425" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
+                  <Component id="btnGIve" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="269" max="32767" attributes="0"/>
               </Group>
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="32767" attributes="0"/>
@@ -71,6 +73,7 @@
                       <Component id="btnVoucher" alignment="3" min="-2" pref="59" max="-2" attributes="0"/>
                       <Component id="btnMenu" alignment="3" min="-2" pref="59" max="-2" attributes="0"/>
                       <Component id="btnMoney" alignment="3" min="-2" pref="59" max="-2" attributes="0"/>
+                      <Component id="btnGIve" alignment="3" min="-2" pref="59" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="405" max="32767" attributes="0"/>
               </Group>
@@ -116,6 +119,14 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExitActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnGIve">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="T&#x1eb7;ng voucher"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGIveActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
