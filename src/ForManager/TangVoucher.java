@@ -7,6 +7,7 @@ package ForManager;
 
 import Core.Voucher;
 import Manager.ManagerVoucher;
+import UI.Map;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -56,6 +57,8 @@ public class TangVoucher extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         buttonGroup2 = new javax.swing.ButtonGroup();
         buttonGroup3 = new javax.swing.ButtonGroup();
+        jFrame1 = new javax.swing.JFrame();
+        jFrame2 = new javax.swing.JFrame();
         txtID = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtGiam = new javax.swing.JTextField();
@@ -73,6 +76,29 @@ public class TangVoucher extends javax.swing.JFrame {
         raf = new javax.swing.JRadioButton();
         txtList = new javax.swing.JTextField();
         btnSelect = new javax.swing.JButton();
+        btntoday = new javax.swing.JButton();
+
+        javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
+        jFrame1.getContentPane().setLayout(jFrame1Layout);
+        jFrame1Layout.setHorizontalGroup(
+            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jFrame1Layout.setVerticalGroup(
+            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jFrame2Layout = new javax.swing.GroupLayout(jFrame2.getContentPane());
+        jFrame2.getContentPane().setLayout(jFrame2Layout);
+        jFrame2Layout.setHorizontalGroup(
+            jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jFrame2Layout.setVerticalGroup(
+            jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -80,9 +106,9 @@ public class TangVoucher extends javax.swing.JFrame {
 
         jLabel2.setText("Giảm");
 
-        jLabel5.setText("Ngày bắt đầu");
+        jLabel5.setText("KM từ ngày");
 
-        jLabel6.setText("Ngày kết thúc");
+        jLabel6.setText("Đến ngày");
 
         jLabel7.setText("Giảm tối đa");
 
@@ -115,6 +141,13 @@ public class TangVoucher extends javax.swing.JFrame {
             }
         });
 
+        btntoday.setText("Hôm nay");
+        btntoday.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btntodayActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -130,28 +163,24 @@ public class TangVoucher extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(txtgiamtoida, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(raall)
-                                    .addComponent(txtstart, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(31, 31, 31)
-                                        .addComponent(rab)
-                                        .addGap(32, 32, 32)
-                                        .addComponent(raf)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGap(52, 52, 52)
-                                        .addComponent(jLabel6)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(txtend, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(txtGiam, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(337, 337, 337))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txtgiamtoida, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(raall)
+                            .addComponent(txtstart, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(31, 31, 31)
+                                .addComponent(rab)
+                                .addGap(32, 32, 32)
+                                .addComponent(raf))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btntoday)
+                                .addGap(53, 53, 53)
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtend, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(txtGiam, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(txtList, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -160,8 +189,8 @@ public class TangVoucher extends javax.swing.JFrame {
                                 .addGap(155, 155, 155)
                                 .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
-                        .addComponent(btnSelect)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(btnSelect)))
+                .addContainerGap(222, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -188,12 +217,13 @@ public class TangVoucher extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtstart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel6)
-                        .addComponent(txtend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(31, 31, 31)
+                        .addComponent(txtend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btntoday)))
+                .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(txtgiamtoida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -218,11 +248,11 @@ public class TangVoucher extends javax.swing.JFrame {
             return;
         }
         if (txtstart.getText().toString().trim().equals("")) {
-            JOptionPane.showMessageDialog(null, "Nhập ngày bắt đầu");
+            JOptionPane.showMessageDialog(null, "Nhập ngày bắt đầu áp dụng KM");
             return;
         }
         if (txtend.getText().toString().trim().equals("")) {
-            JOptionPane.showMessageDialog(null, "Nhập ngày kết thúc");
+            JOptionPane.showMessageDialog(null, "Nhập ngày cuối cùng áp dụng KM");
             return;
         }
         if (txtgiamtoida.getText().toString().trim().equals("")) {
@@ -254,22 +284,24 @@ public class TangVoucher extends javax.swing.JFrame {
                     while ((s = br.readLine()) != null) {
                         emailList.add(s);
                     }
+                    br.close();
+                    fr.close();
                 } catch (IOException ex) {
                     Logger.getLogger(TangVoucher.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(TangVoucher.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
             String HOST_NAME = "smtp.gmail.com";
 
             int SSL_PORT = 465; // Port for SSL
 
             int TSL_PORT = 587; // Port for TLS/STARTTLS
 
-            String APP_EMAIL = "vantoantruykich@gmail.com"; // your email
+            String APP_EMAIL = "blascoffeevn@gmail.com"; // your email
 
-            String APP_PASSWORD = ""; // your password
+            String APP_PASSWORD = "0546550566Qq"; // your password
 
             Properties props = new Properties();
             props.put("mail.smtp.auth", "true");
@@ -284,14 +316,15 @@ public class TangVoucher extends javax.swing.JFrame {
                     return new PasswordAuthentication(APP_EMAIL, APP_PASSWORD);
                 }
             });
+            ManagerVoucher aa = new ManagerVoucher();
             for (String i : emailList) {
                 int id = 0;
                 do {
                     Random r = new Random();
-                    id = r.nextInt(89999999) + 100000000;
-                } while (new ManagerVoucher().checkExitsVoucher(id + ""));
+                    id = r.nextInt(899999999) + 100000000;
+                } while (aa.checkExitsVoucher(id + ""));
                 Voucher vo = new Voucher(id + "", giam, apdungcho, ngaybatdau, ngayketthuc, giamtoida, 1, "chưa", "1999-09-04 10:10:10");
-                new ManagerVoucher().addNewVoucher(vo);
+                aa.addNewVoucher(vo);
                 try {
                     String RECEIVE_EMAIL = i;
                     MimeMessage message = new MimeMessage(session);
@@ -303,11 +336,12 @@ public class TangVoucher extends javax.swing.JFrame {
                     content += " SĐT : 0965040999\n\n";
                     content += "BLAS COFFEE xin kính chào quý khách\n";
                     content += "Nhằm tri ân khách hàng trong thời gian vừa qua quý khách hàng đã đồng hành với BLAS COFFEE. "
-                            + "BLAS COFFEE xin kính tặng quý khách voucher giảm giá " + (vo.getGiam()*100) + "% (";
-                    if(vo.getGiamtoida()==0){
-                        content+="Không giới hạn số tiền được giảm). Áp dụng cho ";
-                    }else
-                        content+="Giảm tối đa " + vo.getGiamtoida()+"đ). Áp dụng cho ";
+                            + "BLAS COFFEE xin kính tặng quý khách voucher giảm giá " + (vo.getGiam() * 100) + "% (";
+                    if (vo.getGiamtoida() == 0) {
+                        content += "Không giới hạn số tiền được giảm). Áp dụng cho ";
+                    } else {
+                        content += "Giảm tối đa " + vo.getGiamtoida() + "đ). Áp dụng cho ";
+                    }
                     if (vo.getApDung().equals("ALL")) {
                         content += "toàn bộ món.\n";
                     } else {
@@ -318,18 +352,23 @@ public class TangVoucher extends javax.swing.JFrame {
                         }
                     }
                     content += "Mã voucher : " + vo.getMa() + "\n";
-                    content += "Voucher này có hiệu lực từ ngày " + vo.getNgayBatDau() + " đến trước ngày " + vo.getNgayKetThuc() + "\n\n";
+                    String dates[] = vo.getNgayBatDau().split("-");
+                    String datee[] = vo.getNgayKetThuc().split("-");
+                    String ds = dates[2]+"/"+dates[1]+"/"+dates[0];
+                    String de = datee[2]+"/"+datee[1]+"/"+datee[0];
+                    content += "Voucher này có hiệu lực từ ngày " + ds + " đến hết ngày " + de + " và không thể quy đổi thành tiền mặt hoặc hiện vật\n\n";
                     content += "BLAS COFFEE kính chúc quý khách nhiều niềm vui, sức khỏe và thành công!\n\n";
                     content += "Đây là email được gửi tự động. Vui lòng KHÔNG REPLY lại email này.\n Chi tiết liên hệ : 0965040999";
-                    message.setText(content);
+                    message.setText(content,"utf8");
                     Transport.send(message);
                 } catch (MessagingException e) {
                     throw new RuntimeException(e);
                 }
             }
-            JOptionPane.showMessageDialog(null, "Gửi thành công");
+            aa.closeConnection();
+            JOptionPane.showMessageDialog(null, "Gửi thành công cho " + emailList.size() + " khách hàng");
         }
-        
+
     }//GEN-LAST:event_btnOKActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -351,6 +390,11 @@ public class TangVoucher extends javax.swing.JFrame {
             txtList.setText(file);
         }
     }//GEN-LAST:event_btnSelectActionPerformed
+
+    private void btntodayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btntodayActionPerformed
+        // TODO add your handling code here:
+        txtstart.setText(new Map().getDate());
+    }//GEN-LAST:event_btntodayActionPerformed
 
     /**
      * @param args the command line arguments
@@ -392,9 +436,12 @@ public class TangVoucher extends javax.swing.JFrame {
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnOK;
     private javax.swing.JButton btnSelect;
+    private javax.swing.JButton btntoday;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
+    private javax.swing.JFrame jFrame1;
+    private javax.swing.JFrame jFrame2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;

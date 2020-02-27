@@ -27,7 +27,12 @@ public class QLMenu extends javax.swing.JFrame {
     /**
      * Creates new form AddFood
      */
+    int dem = 0;
+    ManagerMenu aa = new ManagerMenu();
+    ArrayList<Menu> list = aa.findAllMenu();
+
     public void next() {
+        aa.closeConnection();
         TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(table.getModel());
         table.setRowSorter(rowSorter);
         if (txtFind.getText().trim().length() == 0) {
@@ -35,7 +40,6 @@ public class QLMenu extends javax.swing.JFrame {
         } else {
             rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + txtFind.getText()));
         }
-        ArrayList<Menu> list = new ManagerMenu().findAllFood();
         Vector head = new Vector();
         Vector data = new Vector();
         head.add("Mã món");
@@ -81,6 +85,7 @@ public class QLMenu extends javax.swing.JFrame {
 
         });
     }
+
     public QLMenu() {
         initComponents();
         next();
@@ -103,6 +108,7 @@ public class QLMenu extends javax.swing.JFrame {
         btnBack = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         btnAdd = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -147,6 +153,13 @@ public class QLMenu extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Sắp xếp");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -163,11 +176,11 @@ public class QLMenu extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1))
                 .addGap(43, 43, 43)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(btnupdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(btnAdd))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnupdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(48, 48, 48))
         );
         jPanel1Layout.setVerticalGroup(
@@ -187,7 +200,9 @@ public class QLMenu extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -212,7 +227,9 @@ public class QLMenu extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, " Vui lòng chọn món");
             return;
         }
-        new ManagerTempData().writeTempMon(table.getValueAt(row, 0).toString().trim());
+        ManagerTempData bb = new ManagerTempData();
+        bb.writeTempMon(table.getValueAt(row, 0).toString().trim());
+        bb.closeConnection();
         SuaMenu a = new SuaMenu();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -237,9 +254,10 @@ public class QLMenu extends javax.swing.JFrame {
             return;
         }
         int result = JOptionPane.showConfirmDialog(null, " Bạn có thực sự muốn xóa món? ", "Confirm Box", JOptionPane.YES_NO_OPTION);
-        if(result==JOptionPane.YES_OPTION){
+        if (result == JOptionPane.YES_OPTION) {
             String id = table.getValueAt(row, 0).toString().trim();
-            new ManagerMenu().deleteMenu(id);
+            aa.deleteMenu(id);
+            aa.closeConnection();
             JOptionPane.showMessageDialog(null, "Đã xóa");
             QLMenu a = new QLMenu();
             a.setLocationRelativeTo(null);
@@ -257,6 +275,18 @@ public class QLMenu extends javax.swing.JFrame {
         a.setVisible(true);
         this.hide();
     }//GEN-LAST:event_btnAddActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        dem++;
+        if (dem % 2 == 1) {
+            list = aa.findAllMenuSort1();
+        } else {
+            list = aa.findAllMenuSort2();
+        }
+        aa.closeConnection();
+        next();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -299,6 +329,7 @@ public class QLMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnupdate;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable table;

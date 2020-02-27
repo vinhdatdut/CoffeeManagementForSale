@@ -6,6 +6,7 @@
 package UI;
 
 import Core.KhachHang;
+import Manager.ManagerKhachHang;
 import java.util.Random;
 import javax.swing.JOptionPane;
 
@@ -21,11 +22,13 @@ public class AddNewKH extends javax.swing.JFrame {
      */
     public AddNewKH() {
         initComponents();
+        ManagerKhachHang aaa = new ManagerKhachHang();
         do {
             Random r = new Random();
             id = r.nextInt(89999999) + 100000000;
-        } while (new Manager.ManagerKhachHang().checkExitsKH(id + ""));
+        } while (aaa.checkExitsKH(id + ""));
         txtID.setText("Mã khách hàng: " + id);
+        aaa.closeConnection();
     }
 
     /**
@@ -42,7 +45,6 @@ public class AddNewKH extends javax.swing.JFrame {
         txtName = new javax.swing.JTextField();
         raNam = new javax.swing.JRadioButton();
         raNu = new javax.swing.JRadioButton();
-        jTextField2 = new javax.swing.JTextField();
         txtDay = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txtMonth = new javax.swing.JTextField();
@@ -56,6 +58,7 @@ public class AddNewKH extends javax.swing.JFrame {
         txtAdd = new javax.swing.JTextField();
         btnOK = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -66,8 +69,6 @@ public class AddNewKH extends javax.swing.JFrame {
         raNam.setText("Nam");
 
         raNu.setText("Nữ");
-
-        jTextField2.setText("Ngày sinh");
 
         txtDay.setText(" ");
 
@@ -95,6 +96,8 @@ public class AddNewKH extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("Ngày sinh");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -112,10 +115,10 @@ public class AddNewKH extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(raNam))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtDay, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(30, 30, 30)
                                 .addComponent(jLabel3)
                                 .addGap(18, 18, 18)
                                 .addComponent(txtMonth, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -152,15 +155,15 @@ public class AddNewKH extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(68, 68, 68)
+                .addGap(52, 52, 52)
+                .addComponent(txtID)
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtSdt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel6)
                         .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtID)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -168,12 +171,12 @@ public class AddNewKH extends javax.swing.JFrame {
                             .addComponent(raNu))
                         .addGap(29, 29, 29)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3)
                             .addComponent(txtMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4)
-                            .addComponent(txtYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
                         .addGap(37, 37, 37)
                         .addComponent(jLabel5)))
                 .addGap(31, 31, 31)
@@ -227,9 +230,11 @@ public class AddNewKH extends javax.swing.JFrame {
         String diachi = txtAdd.getText().toString().trim();
         int diem=0;
         KhachHang kh = new KhachHang(id+"", ten, gioitinh, date, sdt, email, diachi, diem);
-        new Manager.ManagerKhachHang().addNewKH(kh);
+        ManagerKhachHang aa = new ManagerKhachHang();
+        aa.addNewKH(kh);
+        aa.closeConnection();
         JOptionPane.showMessageDialog(null, "Thêm thành công");
-         TinhTien a = new TinhTien();
+        TinhTien a = new TinhTien();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         a.setVisible(true);
@@ -283,13 +288,13 @@ public class AddNewKH extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnOK;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JRadioButton raNam;
     private javax.swing.JRadioButton raNu;
     private javax.swing.JTextField txtAdd;

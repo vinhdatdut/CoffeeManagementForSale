@@ -6,6 +6,8 @@
 package UI;
 
 import ForManager.Login;
+import Manager.ManagerOrder;
+import Manager.ManagerTempData;
 import java.awt.Color;
 import java.awt.Font;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
@@ -42,97 +44,99 @@ public class Map extends javax.swing.JFrame {
     public Map() {
         initComponents();
         btnExit.setBackground(Color.RED);
+        ManagerOrder aa = new ManagerOrder();
         btnExit.setFont(new Font("arial",Font.BOLD,20));
-        if (!new Manager.ManagerOrder().checkTableEmpty("1")) {
+        if (!aa.checkTableEmpty("1")) {
             table1.setBackground(Color.RED);
         }
-        if (!new Manager.ManagerOrder().checkTableEmpty("2")) {
+        if (!aa.checkTableEmpty("2")) {
             table2.setBackground(Color.RED);
         }
-        if (!new Manager.ManagerOrder().checkTableEmpty("3")) {
+        if (!aa.checkTableEmpty("3")) {
             table3.setBackground(Color.RED);
         }
-        if (!new Manager.ManagerOrder().checkTableEmpty("4")) {
+        if (!aa.checkTableEmpty("4")) {
             table4.setBackground(Color.RED);
         }
-        if (!new Manager.ManagerOrder().checkTableEmpty("5")) {
+        if (!aa.checkTableEmpty("5")) {
             table5.setBackground(Color.RED);
         }
-        if (!new Manager.ManagerOrder().checkTableEmpty("6")) {
+        if (!aa.checkTableEmpty("6")) {
             table6.setBackground(Color.RED);
         }
-        if (!new Manager.ManagerOrder().checkTableEmpty("7")) {
+        if (!aa.checkTableEmpty("7")) {
             table7.setBackground(Color.RED);
         }
-        if (!new Manager.ManagerOrder().checkTableEmpty("8")) {
+        if (!aa.checkTableEmpty("8")) {
             table8.setBackground(Color.RED);
         }
-        if (!new Manager.ManagerOrder().checkTableEmpty("9")) {
+        if (!aa.checkTableEmpty("9")) {
             table9.setBackground(Color.RED);
         }
-        if (!new Manager.ManagerOrder().checkTableEmpty("10")) {
+        if (!aa.checkTableEmpty("10")) {
             table10.setBackground(Color.RED);
         }
-        if (!new Manager.ManagerOrder().checkTableEmpty("11")) {
+        if (!aa.checkTableEmpty("11")) {
             table11.setBackground(Color.RED);
         }
-        if (!new Manager.ManagerOrder().checkTableEmpty("12")) {
+        if (!aa.checkTableEmpty("12")) {
             table12.setBackground(Color.RED);
         }
-        if (!new Manager.ManagerOrder().checkTableEmpty("13")) {
+        if (!aa.checkTableEmpty("13")) {
             table13.setBackground(Color.RED);
         }
-        if (!new Manager.ManagerOrder().checkTableEmpty("14")) {
+        if (!aa.checkTableEmpty("14")) {
             table14.setBackground(Color.RED);
         }
-        if (!new Manager.ManagerOrder().checkTableEmpty("15")) {
+        if (!aa.checkTableEmpty("15")) {
             table15.setBackground(Color.RED);
         }
-        if (!new Manager.ManagerOrder().checkTableEmpty("16")) {
+        if (!aa.checkTableEmpty("16")) {
             table16.setBackground(Color.RED);
         }
-        if (!new Manager.ManagerOrder().checkTableEmpty("17")) {
+        if (!aa.checkTableEmpty("17")) {
             table17.setBackground(Color.RED);
         }
-        if (!new Manager.ManagerOrder().checkTableEmpty("18")) {
+        if (!aa.checkTableEmpty("18")) {
             table18.setBackground(Color.RED);
         }
-        if (!new Manager.ManagerOrder().checkTableEmpty("19")) {
+        if (!aa.checkTableEmpty("19")) {
             table19.setBackground(Color.RED);
         }
-        if (!new Manager.ManagerOrder().checkTableEmpty("20")) {
+        if (!aa.checkTableEmpty("20")) {
             table20.setBackground(Color.RED);
         }
-        if (!new Manager.ManagerOrder().checkTableEmpty("21")) {
+        if (!aa.checkTableEmpty("21")) {
             table21.setBackground(Color.RED);
         }
-        if (!new Manager.ManagerOrder().checkTableEmpty("22")) {
+        if (!aa.checkTableEmpty("22")) {
             table22.setBackground(Color.RED);
         }
-        if (!new Manager.ManagerOrder().checkTableEmpty("23")) {
+        if (!aa.checkTableEmpty("23")) {
             table23.setBackground(Color.RED);
         }
-        if (!new Manager.ManagerOrder().checkTableEmpty("24")) {
+        if (!aa.checkTableEmpty("24")) {
             table24.setBackground(Color.RED);
         }
-        if (!new Manager.ManagerOrder().checkTableEmpty("25")) {
+        if (!aa.checkTableEmpty("25")) {
             table25.setBackground(Color.RED);
         }
-        if (!new Manager.ManagerOrder().checkTableEmpty("26")) {
+        if (!aa.checkTableEmpty("26")) {
             table26.setBackground(Color.RED);
         }
-        if (!new Manager.ManagerOrder().checkTableEmpty("27")) {
+        if (!aa.checkTableEmpty("27")) {
             table27.setBackground(Color.RED);
         }
-        if (!new Manager.ManagerOrder().checkTableEmpty("28")) {
+        if (!aa.checkTableEmpty("28")) {
             table28.setBackground(Color.RED);
         }
-        if (!new Manager.ManagerOrder().checkTableEmpty("29")) {
+        if (!aa.checkTableEmpty("29")) {
             table29.setBackground(Color.RED);
         }
-        if (!new Manager.ManagerOrder().checkTableEmpty("30")) {
+        if (!aa.checkTableEmpty("30")) {
             table30.setBackground(Color.RED);
         }
+        aa.closeConnection();
     }
 
     /**
@@ -544,7 +548,9 @@ public class Map extends javax.swing.JFrame {
 
     private void table1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table1ActionPerformed
         // TODO add your handling code here:
-        new Manager.ManagerTempData().writeTempTable("1");
+        ManagerTempData aa = new ManagerTempData();
+        aa.writeTempTable("1");
+        aa.closeConnection();
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -554,7 +560,9 @@ public class Map extends javax.swing.JFrame {
 
     private void table2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table2ActionPerformed
         // TODO add your handling code here:
-        new Manager.ManagerTempData().writeTempTable("2");
+        ManagerTempData aa = new ManagerTempData();
+        aa.writeTempTable("2");
+        aa.closeConnection();
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -564,7 +572,9 @@ public class Map extends javax.swing.JFrame {
 
     private void table3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table3ActionPerformed
         // TODO add your handling code here:
-        new Manager.ManagerTempData().writeTempTable("3");
+        ManagerTempData aa = new ManagerTempData();
+        aa.writeTempTable("3");
+        aa.closeConnection();
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -574,7 +584,9 @@ public class Map extends javax.swing.JFrame {
 
     private void table4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table4ActionPerformed
         // TODO add your handling code here:
-        new Manager.ManagerTempData().writeTempTable("4");
+        ManagerTempData aa = new ManagerTempData();
+        aa.writeTempTable("4");
+        aa.closeConnection();
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -589,7 +601,9 @@ public class Map extends javax.swing.JFrame {
 
     private void table5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table5ActionPerformed
         // TODO add your handling code here:
-        new Manager.ManagerTempData().writeTempTable("5");
+        ManagerTempData aa = new ManagerTempData();
+        aa.writeTempTable("5");
+        aa.closeConnection();
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -599,7 +613,9 @@ public class Map extends javax.swing.JFrame {
 
     private void table6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table6ActionPerformed
         // TODO add your handling code here:
-        new Manager.ManagerTempData().writeTempTable("6");
+        ManagerTempData aa = new ManagerTempData();
+        aa.writeTempTable("6");
+        aa.closeConnection();
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -609,7 +625,9 @@ public class Map extends javax.swing.JFrame {
 
     private void table7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table7ActionPerformed
         // TODO add your handling code here:
-        new Manager.ManagerTempData().writeTempTable("7");
+        ManagerTempData aa = new ManagerTempData();
+        aa.writeTempTable("7");
+        aa.closeConnection();
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -619,7 +637,9 @@ public class Map extends javax.swing.JFrame {
 
     private void table8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table8ActionPerformed
         // TODO add your handling code here:
-        new Manager.ManagerTempData().writeTempTable("8");
+        ManagerTempData aa = new ManagerTempData();
+        aa.writeTempTable("8");
+        aa.closeConnection();
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -629,7 +649,9 @@ public class Map extends javax.swing.JFrame {
 
     private void table9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table9ActionPerformed
         // TODO add your handling code here:
-        new Manager.ManagerTempData().writeTempTable("9");
+        ManagerTempData aa = new ManagerTempData();
+        aa.writeTempTable("9");
+        aa.closeConnection();
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -639,7 +661,9 @@ public class Map extends javax.swing.JFrame {
 
     private void table10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table10ActionPerformed
         // TODO add your handling code here:
-        new Manager.ManagerTempData().writeTempTable("10");
+        ManagerTempData aa = new ManagerTempData();
+        aa.writeTempTable("10");
+        aa.closeConnection();
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -649,7 +673,9 @@ public class Map extends javax.swing.JFrame {
 
     private void table11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table11ActionPerformed
         // TODO add your handling code here:
-        new Manager.ManagerTempData().writeTempTable("11");
+        ManagerTempData aa = new ManagerTempData();
+        aa.writeTempTable("11");
+        aa.closeConnection();
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -659,7 +685,9 @@ public class Map extends javax.swing.JFrame {
 
     private void table12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table12ActionPerformed
         // TODO add your handling code here:
-        new Manager.ManagerTempData().writeTempTable("12");
+        ManagerTempData aa = new ManagerTempData();
+        aa.writeTempTable("12");
+        aa.closeConnection();
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -669,7 +697,9 @@ public class Map extends javax.swing.JFrame {
 
     private void table13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table13ActionPerformed
         // TODO add your handling code here:
-        new Manager.ManagerTempData().writeTempTable("13");
+        ManagerTempData aa = new ManagerTempData();
+        aa.writeTempTable("13");
+        aa.closeConnection();
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -679,7 +709,9 @@ public class Map extends javax.swing.JFrame {
 
     private void table14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table14ActionPerformed
         // TODO add your handling code here:
-        new Manager.ManagerTempData().writeTempTable("14");
+        ManagerTempData aa = new ManagerTempData();
+        aa.writeTempTable("14");
+        aa.closeConnection();
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -689,7 +721,9 @@ public class Map extends javax.swing.JFrame {
 
     private void table15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table15ActionPerformed
         // TODO add your handling code here:
-        new Manager.ManagerTempData().writeTempTable("15");
+        ManagerTempData aa = new ManagerTempData();
+        aa.writeTempTable("15");
+        aa.closeConnection();
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -699,7 +733,9 @@ public class Map extends javax.swing.JFrame {
 
     private void table16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table16ActionPerformed
         // TODO add your handling code here:
-        new Manager.ManagerTempData().writeTempTable("16");
+        ManagerTempData aa = new ManagerTempData();
+        aa.writeTempTable("16");
+        aa.closeConnection();
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -709,7 +745,9 @@ public class Map extends javax.swing.JFrame {
 
     private void table17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table17ActionPerformed
         // TODO add your handling code here:
-        new Manager.ManagerTempData().writeTempTable("17");
+        ManagerTempData aa = new ManagerTempData();
+        aa.writeTempTable("17");
+        aa.closeConnection();
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -719,7 +757,9 @@ public class Map extends javax.swing.JFrame {
 
     private void table18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table18ActionPerformed
         // TODO add your handling code here:
-        new Manager.ManagerTempData().writeTempTable("18");
+        ManagerTempData aa = new ManagerTempData();
+        aa.writeTempTable("18");
+        aa.closeConnection();
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -729,7 +769,9 @@ public class Map extends javax.swing.JFrame {
 
     private void table19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table19ActionPerformed
         // TODO add your handling code here:
-        new Manager.ManagerTempData().writeTempTable("19");
+        ManagerTempData aa = new ManagerTempData();
+        aa.writeTempTable("19");
+        aa.closeConnection();
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -739,7 +781,9 @@ public class Map extends javax.swing.JFrame {
 
     private void table20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table20ActionPerformed
         // TODO add your handling code here:
-        new Manager.ManagerTempData().writeTempTable("20");
+        ManagerTempData aa = new ManagerTempData();
+        aa.writeTempTable("20");
+        aa.closeConnection();
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -749,7 +793,9 @@ public class Map extends javax.swing.JFrame {
 
     private void table21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table21ActionPerformed
         // TODO add your handling code here:
-        new Manager.ManagerTempData().writeTempTable("21");
+        ManagerTempData aa = new ManagerTempData();
+        aa.writeTempTable("21");
+        aa.closeConnection();
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -759,7 +805,9 @@ public class Map extends javax.swing.JFrame {
 
     private void table22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table22ActionPerformed
         // TODO add your handling code here:
-        new Manager.ManagerTempData().writeTempTable("22");
+        ManagerTempData aa = new ManagerTempData();
+        aa.writeTempTable("22");
+        aa.closeConnection();
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -769,7 +817,9 @@ public class Map extends javax.swing.JFrame {
 
     private void table23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table23ActionPerformed
         // TODO add your handling code here:
-        new Manager.ManagerTempData().writeTempTable("23");
+        ManagerTempData aa = new ManagerTempData();
+        aa.writeTempTable("23");
+        aa.closeConnection();
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -779,7 +829,9 @@ public class Map extends javax.swing.JFrame {
 
     private void table24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table24ActionPerformed
         // TODO add your handling code here:
-        new Manager.ManagerTempData().writeTempTable("24");
+        ManagerTempData aa = new ManagerTempData();
+        aa.writeTempTable("24");
+        aa.closeConnection();
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -789,7 +841,9 @@ public class Map extends javax.swing.JFrame {
 
     private void table25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table25ActionPerformed
         // TODO add your handling code here:
-        new Manager.ManagerTempData().writeTempTable("25");
+        ManagerTempData aa = new ManagerTempData();
+        aa.writeTempTable("25");
+        aa.closeConnection();
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -799,7 +853,9 @@ public class Map extends javax.swing.JFrame {
 
     private void table26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table26ActionPerformed
         // TODO add your handling code here:
-        new Manager.ManagerTempData().writeTempTable("26");
+        ManagerTempData aa = new ManagerTempData();
+        aa.writeTempTable("26");
+        aa.closeConnection();
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -809,7 +865,9 @@ public class Map extends javax.swing.JFrame {
 
     private void table27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table27ActionPerformed
         // TODO add your handling code here:
-        new Manager.ManagerTempData().writeTempTable("27");
+        ManagerTempData aa = new ManagerTempData();
+        aa.writeTempTable("27");
+        aa.closeConnection();
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -819,7 +877,9 @@ public class Map extends javax.swing.JFrame {
 
     private void table28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table28ActionPerformed
         // TODO add your handling code here:
-        new Manager.ManagerTempData().writeTempTable("28");
+        ManagerTempData aa = new ManagerTempData();
+        aa.writeTempTable("28");
+        aa.closeConnection();
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -829,7 +889,9 @@ public class Map extends javax.swing.JFrame {
 
     private void table29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table29ActionPerformed
         // TODO add your handling code here:
-        new Manager.ManagerTempData().writeTempTable("29");
+        ManagerTempData aa = new ManagerTempData();
+        aa.writeTempTable("29");
+        aa.closeConnection();
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -839,7 +901,9 @@ public class Map extends javax.swing.JFrame {
 
     private void table30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table30ActionPerformed
         // TODO add your handling code here:
-        new Manager.ManagerTempData().writeTempTable("30");
+        ManagerTempData aa = new ManagerTempData();
+        aa.writeTempTable("30");
+        aa.closeConnection();
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);

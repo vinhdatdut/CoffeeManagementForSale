@@ -40,10 +40,146 @@ public class ManagerMenu {
         }
     }
 
-    public ArrayList<Menu> findAllFood() {
+    public ArrayList<Menu> findAllMenu() {
         try {
             ArrayList<Menu> list = new ArrayList<>();
             String sql = " select * from menu";
+            Statement sta = getConnection().createStatement();
+            ResultSet RS = sta.executeQuery(sql);
+            while (RS.next() == true) {
+                Menu menu = new Menu(RS.getString("MaMon"), RS.getString("TenMon"), RS.getDouble("DonGia"), RS.getString("ChuThich"), RS.getInt("solandat"));
+                list.add(menu);
+            }
+            return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerOrder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        closeConnection();
+        return null;
+    }
+    public ArrayList<Menu> findAllFood() {
+        try {
+            ArrayList<Menu> list = new ArrayList<>();
+            String sql = " select * from menu where MaMon like 'F%'";
+            Statement sta = getConnection().createStatement();
+            ResultSet RS = sta.executeQuery(sql);
+            while (RS.next() == true) {
+                Menu menu = new Menu(RS.getString("MaMon"), RS.getString("TenMon"), RS.getDouble("DonGia"), RS.getString("ChuThich"), RS.getInt("solandat"));
+                list.add(menu);
+            }
+            return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerOrder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        closeConnection();
+        return null;
+    }
+    public ArrayList<Menu> findAllBeverage() {
+        try {
+            ArrayList<Menu> list = new ArrayList<>();
+            String sql = " select * from menu where MaMon like 'B%'";
+            Statement sta = getConnection().createStatement();
+            ResultSet RS = sta.executeQuery(sql);
+            while (RS.next() == true) {
+                Menu menu = new Menu(RS.getString("MaMon"), RS.getString("TenMon"), RS.getDouble("DonGia"), RS.getString("ChuThich"), RS.getInt("solandat"));
+                list.add(menu);
+            }
+            return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerOrder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        closeConnection();
+        return null;
+    }
+    public ArrayList<Menu> findAllMenuSort1() {
+        try {
+            ArrayList<Menu> list = new ArrayList<>();
+            String sql = " select * from menu order by solandat desc";
+            Statement sta = getConnection().createStatement();
+            ResultSet RS = sta.executeQuery(sql);
+            while (RS.next() == true) {
+                Menu menu = new Menu(RS.getString("MaMon"), RS.getString("TenMon"), RS.getDouble("DonGia"), RS.getString("ChuThich"), RS.getInt("solandat"));
+                list.add(menu);
+            }
+            return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerOrder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        closeConnection();
+        return null;
+    }
+    public ArrayList<Menu> findAllMenuSort2() {
+        try {
+            ArrayList<Menu> list = new ArrayList<>();
+            String sql = " select * from menu order by solandat";
+            Statement sta = getConnection().createStatement();
+            ResultSet RS = sta.executeQuery(sql);
+            while (RS.next() == true) {
+                Menu menu = new Menu(RS.getString("MaMon"), RS.getString("TenMon"), RS.getDouble("DonGia"), RS.getString("ChuThich"), RS.getInt("solandat"));
+                list.add(menu);
+            }
+            return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerOrder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        closeConnection();
+        return null;
+    }
+    public ArrayList<Menu> findAllFoodSort1() {
+        try {
+            ArrayList<Menu> list = new ArrayList<>();
+            String sql = " select * from menu where MaMon like 'F%' order by solandat";
+            Statement sta = getConnection().createStatement();
+            ResultSet RS = sta.executeQuery(sql);
+            while (RS.next() == true) {
+                Menu menu = new Menu(RS.getString("MaMon"), RS.getString("TenMon"), RS.getDouble("DonGia"), RS.getString("ChuThich"), RS.getInt("solandat"));
+                list.add(menu);
+            }
+            return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerOrder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        closeConnection();
+        return null;
+    }
+    public ArrayList<Menu> findAllFoodSort2() {
+        try {
+            ArrayList<Menu> list = new ArrayList<>();
+            String sql = " select * from menu where MaMon like 'F%' order by solandat desc";
+            Statement sta = getConnection().createStatement();
+            ResultSet RS = sta.executeQuery(sql);
+            while (RS.next() == true) {
+                Menu menu = new Menu(RS.getString("MaMon"), RS.getString("TenMon"), RS.getDouble("DonGia"), RS.getString("ChuThich"), RS.getInt("solandat"));
+                list.add(menu);
+            }
+            return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerOrder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        closeConnection();
+        return null;
+    }
+    public ArrayList<Menu> findAllBeverageSort1() {
+        try {
+            ArrayList<Menu> list = new ArrayList<>();
+            String sql = " select * from menu where MaMon like 'B%' order by solandat";
+            Statement sta = getConnection().createStatement();
+            ResultSet RS = sta.executeQuery(sql);
+            while (RS.next() == true) {
+                Menu menu = new Menu(RS.getString("MaMon"), RS.getString("TenMon"), RS.getDouble("DonGia"), RS.getString("ChuThich"), RS.getInt("solandat"));
+                list.add(menu);
+            }
+            return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerOrder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        closeConnection();
+        return null;
+    }
+    public ArrayList<Menu> findAllBeverageSort2() {
+        try {
+            ArrayList<Menu> list = new ArrayList<>();
+            String sql = " select * from menu where MaMon like 'B%' order by solandat desc";
             Statement sta = getConnection().createStatement();
             ResultSet RS = sta.executeQuery(sql);
             while (RS.next() == true) {
@@ -120,5 +256,20 @@ public class ManagerMenu {
         }
         closeConnection();
         return null;
+    }
+    
+    public double getMoneyFood(String id) {
+        try {
+            String sql = " select dongia from menu where MaMon = '" + id + "'";
+            Statement sta = getConnection().createStatement();
+            ResultSet RS = sta.executeQuery(sql);
+            if (RS.next() == true) {
+                return RS.getDouble("dongia");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerOrder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        closeConnection();
+        return 0;
     }
 }

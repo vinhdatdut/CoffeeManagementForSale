@@ -5,6 +5,7 @@
  */
 package UI;
 
+import Manager.ManagerBill;
 import Manager.ManagerTempData;
 import javax.swing.JOptionPane;
 
@@ -127,6 +128,10 @@ public class ChuyenBan extends javax.swing.JFrame {
             a.setLocationRelativeTo(null);
             a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             a.setVisible(true);
+            return;
+        }
+        if(!new ManagerBill().checkTableOK(ban)){
+            JOptionPane.showMessageDialog(null, "Bàn này đã có người ngồi");
             return;
         }
         if(!checkChuyenBan(ban)){

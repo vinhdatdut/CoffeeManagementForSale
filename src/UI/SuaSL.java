@@ -5,22 +5,13 @@
  */
 package UI;
 
-import Core.Menu;
 import Core.Order;
-import Manager.ManagerBill;
-import Manager.ManagerMenu;
 import Manager.ManagerOrder;
 import Manager.ManagerTempData;
-import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.JOptionPane;
-import javax.swing.RowFilter;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -31,12 +22,16 @@ public class SuaSL extends javax.swing.JFrame {
     /**
      * Creates new form SuaSL
      */
+    ManagerTempData bb = new ManagerTempData();
+    ManagerOrder cc = new ManagerOrder();
     public void next() {
-        ArrayList<Order> list = new ManagerOrder().findOrder(new ManagerTempData().getTempTable());
+        ArrayList<Order> list = cc.findOrder(bb.getTempTable());
         Vector head = new Vector();
         Vector data = new Vector();
         head.add("Tên món");
         head.add("Số lượng");
+        bb.closeConnection();
+        cc.closeConnection();
         for (Order i : list) {
             Vector row = new Vector();
             row.add(i.getTenMon());
@@ -131,9 +126,9 @@ public class SuaSL extends javax.swing.JFrame {
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
         // TODO add your handling code here:
-        int row = new ManagerOrder().countFoodInOrder(new ManagerTempData().getTempTable());
+        int row = cc.countFoodInOrder(bb.getTempTable());
         ArrayList<Order> list = new ArrayList<>();
-        list = new ManagerOrder().findOrder(new ManagerTempData().getTempTable());
+        list = cc.findOrder(bb.getTempTable());
         for(int i=0;i<row;i++){
             if(table.getValueAt(i, 1).equals("")){
                 JOptionPane.showMessageDialog(null, "Vui lòng nhập số lượng đủ");
@@ -144,8 +139,10 @@ public class SuaSL extends javax.swing.JFrame {
                 return;                
             }
             list.get(i).setSoluong(Double.parseDouble(table.getValueAt(i, 1).toString()));
-            new ManagerOrder().updateSoLuongOrder(list.get(i));
+            cc.updateSoLuongOrder(list.get(i));
         }
+        bb.closeConnection();
+        cc.closeConnection();
         JOptionPane.showMessageDialog(null, "Sửa thành công");
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);

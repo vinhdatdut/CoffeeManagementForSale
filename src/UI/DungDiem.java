@@ -5,7 +5,7 @@
  */
 package UI;
 
-import Core.DataShop;
+import Manager.ManagerKhachHang;
 import Manager.ManagerOrder;
 import Manager.ManagerTempData;
 import javax.swing.JOptionPane;
@@ -21,9 +21,14 @@ public class DungDiem extends javax.swing.JFrame {
      */
     public DungDiem() {
         initComponents();
-        txtDiemKhach.setText("Quý khách đã tích được "+new Manager.ManagerKhachHang().getDiemKH(new ManagerTempData().getTempKH())+" điểm trong tài khoản");
-        txtTien.setText("Tiền quý khách phải trả : " + new ManagerOrder().getMoney(new ManagerTempData().getTempTable()));
-        
+        ManagerOrder aa = new ManagerOrder();
+        ManagerTempData bb = new ManagerTempData();
+        ManagerKhachHang cc = new ManagerKhachHang();
+        txtDiemKhach.setText("Quý khách đã tích được "+cc.getDiemKH(bb.getTempKH())+" điểm trong tài khoản");
+        txtTien.setText("Tiền quý khách phải trả : " + aa.getMoney(bb.getTempTable()));
+        aa.closeConnection();
+        bb.closeConnection();
+        cc.closeConnection();
     }
 
     /**
@@ -136,23 +141,29 @@ public class DungDiem extends javax.swing.JFrame {
 
     private void btnTTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTTActionPerformed
         // TODO add your handling code here:
+        ManagerOrder aa = new ManagerOrder();
+        ManagerTempData bb = new ManagerTempData();
+        ManagerKhachHang cc = new ManagerKhachHang();
         if(Integer.parseInt(txtDiem.getText().toString().trim())<=0){
             JOptionPane.showMessageDialog(null, "Vui lòng nhập điểm phù hợp");
             return;
         }
-        if(Integer.parseInt(txtDiem.getText().toString().trim())>Double.parseDouble(new ManagerOrder().getMoney(new ManagerTempData().getTempTable())+"")){
+        if(Integer.parseInt(txtDiem.getText().toString().trim())>Double.parseDouble(aa.getMoney(bb.getTempTable())+"")){
             JOptionPane.showMessageDialog(null, "Điểm quy đổi không được lớn hơn số tiền khách trả");
             return;
         }
         if(!txtDiem.getText().toString().trim().equals("")){
             int diemnhap = Integer.parseInt(txtDiem.getText().toString().trim());
-            int diemcuakhach = new Manager.ManagerKhachHang().getDiemKH(new ManagerTempData().getTempKH());
+            int diemcuakhach = cc.getDiemKH(bb.getTempKH());
             if(diemnhap>diemcuakhach){
                 JOptionPane.showMessageDialog(null, "Điểm của khách không đủ");
                 return;
             }
-            new ManagerTempData().writeTempDiem(txtDiem.getText().toString().trim());
+            bb.writeTempDiem(txtDiem.getText().toString().trim());
         }
+        aa.closeConnection();
+        bb.closeConnection();
+        cc.closeConnection();
         TienThua a = new TienThua();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);

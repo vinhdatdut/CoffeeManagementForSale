@@ -211,7 +211,7 @@ public class TaoVoucher extends javax.swing.JFrame {
 //            Random r = new Random();
 //            id = r.nextInt(89999999) + 100000000;
 //        } while (new Manager.ManagerKhachHang().checkExitsKH(id + ""));
-//        if(new ManagerVoucher().checkExitsVoucher(txtSo.getText().toString().trim())){
+//        if(aa.checkExitsVoucher(txtSo.getText().toString().trim())){
 //            JOptionPane.showMessageDialog(null, "Trùng mã voucher");
 //            return;
 //        }
@@ -252,16 +252,18 @@ public class TaoVoucher extends javax.swing.JFrame {
             apdungcho = "B";
         }
         String kq = "";
+        ManagerVoucher aa = new ManagerVoucher();
         for (int i = 0; i < so; i++) {
             int id = 0;
             do {
                 Random r = new Random();
                 id = r.nextInt(89999999) + 100000000;
-            } while (new ManagerVoucher().checkExitsVoucher(id + ""));
+            } while (aa.checkExitsVoucher(id + ""));
             kq += id + "\n";
             Voucher vo = new Voucher(id + "", giam, apdungcho, ngaybatdau, ngayketthuc, giamtoida, 1, "chưa", "1999-09-04 10:10:10");
-            new ManagerVoucher().addNewVoucher(vo);
+            aa.addNewVoucher(vo);
         }
+        aa.closeConnection();
         txthere.setText(kq);
         JOptionPane.showMessageDialog(null, "Thêm thành công");
     }//GEN-LAST:event_btnOKActionPerformed

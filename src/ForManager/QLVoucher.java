@@ -28,6 +28,7 @@ public class QLVoucher extends javax.swing.JFrame {
      * Creates new form AddFood
      */
     public void next() {
+        ManagerVoucher aa = new ManagerVoucher();
         TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(table.getModel());
         table.setRowSorter(rowSorter);
         if (txtFind.getText().trim().length() == 0) {
@@ -35,7 +36,8 @@ public class QLVoucher extends javax.swing.JFrame {
         } else {
             rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + txtFind.getText()));
         }
-        ArrayList<Voucher> list = new ManagerVoucher().findAllVoucher();
+        ArrayList<Voucher> list = aa.findAllVoucher();
+        aa.closeConnection();
         Vector head = new Vector();
         Vector data = new Vector();
         head.add("Mã voucher");
@@ -229,7 +231,9 @@ public class QLVoucher extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, " Vui lòng chọn voucher");
             return;
         }
-        new ManagerTempData().writeTempMon(table.getValueAt(row, 0).toString().trim());
+        ManagerTempData aa = new ManagerTempData();
+        aa.writeTempMon(table.getValueAt(row, 0).toString().trim());
+        aa.closeConnection();
         SuaVoucher a = new SuaVoucher();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -256,7 +260,9 @@ public class QLVoucher extends javax.swing.JFrame {
         int result = JOptionPane.showConfirmDialog(null, " Bạn có thực sự muốn xóa món? ", "Confirm Box", JOptionPane.YES_NO_OPTION);
         if(result==JOptionPane.YES_OPTION){
             String id = table.getValueAt(row, 0).toString().trim();
-            new ManagerVoucher().deleteVoucher(id);
+            ManagerVoucher aa = new ManagerVoucher();
+            aa.deleteVoucher(id);
+            aa.closeConnection();
             JOptionPane.showMessageDialog(null, "Đã xóa");
             QLVoucher a = new QLVoucher();
             a.setLocationRelativeTo(null);

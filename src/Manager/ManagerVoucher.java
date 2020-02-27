@@ -108,6 +108,7 @@ public class ManagerVoucher {
     public boolean checkExitsVoucher(String id) {
         try {
             String sql = " select * from voucher where Ma = '" + id + "'";
+            System.out.println("ok");
             Statement sta = getConnection().createStatement();
             ResultSet RS = sta.executeQuery(sql);
             if (RS.next() == true) {

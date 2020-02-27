@@ -23,11 +23,15 @@ public class SuaMenu extends javax.swing.JFrame {
      */
     public SuaMenu() {
         initComponents();
-        m = new ManagerMenu().findMenu(new ManagerTempData().getTempMon());
+        ManagerMenu aa = new ManagerMenu();
+        ManagerTempData bb = new ManagerTempData();
+        m = aa.findMenu(bb.getTempMon());
         txtID.setText("Mã món : " + m.getMaMon());
         txtTen.setText(m.getTenMon());
         txtGia.setText(m.getDonGia() + "");
         txtAdd.setText(m.getChuThich());
+        aa.closeConnection();
+        bb.closeConnection();
     }
 
     /**
@@ -137,7 +141,9 @@ public class SuaMenu extends javax.swing.JFrame {
             return;
         }
         Menu me = new Menu(m.getMaMon(), txtTen.getText().toString().trim(), Double.parseDouble(txtGia.getText().toString().trim()), txtAdd.getText().toString().trim(), m.getSolandat());
-        new ManagerMenu().updateMenu(me);
+        ManagerMenu aa = new ManagerMenu();
+        aa.updateMenu(me);
+        aa.closeConnection();
         JOptionPane.showMessageDialog(null, "Đã cập nhật");
         QLMenu a = new QLMenu();
         a.setLocationRelativeTo(null);

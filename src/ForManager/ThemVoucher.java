@@ -192,12 +192,14 @@ public class ThemVoucher extends javax.swing.JFrame {
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
         // TODO add your handling code here:
+        ManagerVoucher aa = new ManagerVoucher();
         if (txtMa.getText().toString().trim().equals("")) {
             JOptionPane.showMessageDialog(null, "Nhập mã voucher");
             return;
         }
-        if(new ManagerVoucher().checkExitsVoucher(txtMa.getText().toString().trim())){
+        if(aa.checkExitsVoucher(txtMa.getText().toString().trim())){
             JOptionPane.showMessageDialog(null, "Trùng mã voucher");
+            aa.closeConnection();
             return;
         }
         if (txtGiam.getText().toString().trim().equals("")) {
@@ -248,7 +250,8 @@ public class ThemVoucher extends javax.swing.JFrame {
         }
         String dadung = "chưa";
         Voucher vo = new Voucher(ma, giam, apdungcho, ngaybatdau, ngayketthuc, giamtoida, solandung, dadung, "1999-09-04 10:10:10");
-        new ManagerVoucher().addNewVoucher(vo);
+        aa.addNewVoucher(vo);
+        aa.closeConnection();
         JOptionPane.showMessageDialog(null, "Thêm thành công");
         QLVoucher a = new QLVoucher();
         a.setLocationRelativeTo(null);

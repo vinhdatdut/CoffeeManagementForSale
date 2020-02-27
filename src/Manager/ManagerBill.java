@@ -9,8 +9,6 @@ import Core.Bill;
 import Core.Menu;
 import Core.Order;
 import Core.Voucher;
-import UI.DungDiem;
-import UI.TinhTien;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -39,7 +37,7 @@ public class ManagerBill {
 
     public void closeConnection() {
         try {
-            this.conn.close();
+            conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(ManagerOrder.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -229,5 +227,20 @@ public class ManagerBill {
         }
         closeConnection();
         return "";
+    }
+    
+    public boolean checkTableOK(String ban){
+        try {
+            String sql = " select * from bill where ban = '" + ban +"'";
+            Statement sta = getConnection().createStatement();
+            ResultSet RS = sta.executeQuery(sql);
+            if (RS.next() == true) {
+                return false;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerKhachHang.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        closeConnection();
+        return true;
     }
 }

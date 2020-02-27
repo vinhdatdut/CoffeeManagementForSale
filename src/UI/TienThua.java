@@ -10,8 +10,10 @@ import Core.KhachHang;
 import Core.Voucher;
 import Manager.ManagerBill;
 import Manager.ManagerDataShop;
+import Manager.ManagerKhachHang;
 import Manager.ManagerOrder;
 import Manager.ManagerTempData;
+import Manager.ManagerVoucher;
 import javax.swing.JOptionPane;
 
 /**
@@ -119,50 +121,63 @@ public class TienThua extends javax.swing.JFrame {
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
         // TODO add your handling code here:
+        ManagerBill aa = new ManagerBill();
+        ManagerTempData bb = new ManagerTempData();
+        ManagerOrder cc = new ManagerOrder();
+        ManagerKhachHang ee = new ManagerKhachHang();
         if (txtMoney.getText().toString().equals("")) {
             JOptionPane.showMessageDialog(null, "Nhập tiền khách đưa");
             return;
         }
         int diem = 0;
-        double tien = new Manager.ManagerOrder().getMoney(new ManagerTempData().getTempTable());
+        double tien = cc.getMoney(bb.getTempTable());
         double tienkhachdua = Double.parseDouble(txtMoney.getText().toString().trim());
         if (tien > tienkhachdua) {
             JOptionPane.showMessageDialog(null, "Chưa đủ tiền");
             return;
         }
         JOptionPane.showMessageDialog(null, "Trả lại khách : " + (tienkhachdua - tien));
-        if (new ManagerTempData().checkExitsKH()) {
-            KhachHang kh = new Manager.ManagerKhachHang().findKH(new ManagerTempData().getTempKH());
+        if (bb.checkExitsKH()) {
+            KhachHang kh = ee.findKH(bb.getTempKH());
             kh.setDiem(kh.getDiem() + (int) (0.03 * tien));
-            new Manager.ManagerKhachHang().updateKH(kh);
+            ee.updateKH(kh);
+            ee.closeConnection();
         }
-        new ManagerBill().updateTrend(new ManagerTempData().getTempTable());
-        double tiengoc = new ManagerOrder().getMoneyGoc(new ManagerTempData().getTempTable());
-        double tiensaugiam = new ManagerOrder().getMoney(new ManagerTempData().getTempTable());
-        double diema = Double.parseDouble(new ManagerTempData().getTempDiem());
+        aa.updateTrend(bb.getTempTable());
+        double tiengoc = cc.getMoneyGoc(bb.getTempTable());
+        double tiensaugiam = cc.getMoney(bb.getTempTable());
+        double diema = Double.parseDouble(bb.getTempDiem());
         String date = new Map().getDate();
         String day[] = date.split("-");
         int y = Integer.parseInt(day[0]);
         int m = Integer.parseInt(day[1]);
         int da = Integer.parseInt(day[2]);
         DataShop d = new DataShop(tiengoc, tiengoc - tiensaugiam - diema, diema, da, m, y);
-        new ManagerDataShop().addNewDataShop(d);
+        ManagerDataShop ff = new ManagerDataShop();
+        ff.addNewDataShop(d);
+        ff.closeConnection();
         new TinhTien().process();
-        if (new ManagerTempData().checkExitsVoucher()) {
-            Voucher vo = new Manager.ManagerVoucher().findVoucher(new ManagerTempData().getTempVoucher());
+        ManagerVoucher vv = new ManagerVoucher();
+        if (bb.checkExitsVoucher()) {
+            Voucher vo = vv.findVoucher(bb.getTempVoucher());
             if (vo.getSolandung() == 1) {
                 vo.setDadung("đã dùng");
                 vo.setThoidiemdung(new Map().getDateTime());
-                new Manager.ManagerVoucher().updateVoucher(vo);
+                vv.updateVoucher(vo);
             }
+            vv.closeConnection();
         }
-        if (new ManagerTempData().checkExitsDiem()) {
-            int diemgiam = Integer.parseInt(new ManagerTempData().getTempDiem());
-            KhachHang k = new Manager.ManagerKhachHang().findKH(new ManagerTempData().getTempKH());
+        if (bb.checkExitsDiem()) {
+            int diemgiam = Integer.parseInt(bb.getTempDiem());
+            KhachHang k = ee.findKH(bb.getTempKH());
             k.setDiem(k.getDiem() - diemgiam);
-            new Manager.ManagerKhachHang().updateKH(k);
+            ee.updateKH(k);
+            ee.closeConnection();
         }
-        new ManagerTempData().DeleteTemp();
+        bb.DeleteTemp();
+        aa.closeConnection();
+        bb.closeConnection();
+        cc.closeConnection();
         this.hide();
     }//GEN-LAST:event_btnOKActionPerformed
 
@@ -177,7 +192,9 @@ public class TienThua extends javax.swing.JFrame {
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         a.setVisible(true);
         this.hide();
-        new ManagerTempData().DeleteTemp();
+        ManagerTempData bb = new ManagerTempData();
+        bb.DeleteTemp();
+        bb.closeConnection();
     }//GEN-LAST:event_btnBackActionPerformed
 
     /**

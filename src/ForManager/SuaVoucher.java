@@ -23,7 +23,11 @@ public class SuaVoucher extends javax.swing.JFrame {
      */
     public SuaVoucher() {
         initComponents();
-        v = new ManagerVoucher().findVoucher(new ManagerTempData().getTempMon());
+        ManagerVoucher aa = new ManagerVoucher();
+        ManagerTempData bb = new ManagerTempData();
+        v = aa.findVoucher(bb.getTempMon());
+        aa.closeConnection();
+        bb.closeConnection();
         txtID.setText("Mã voucher: " + v.getMa());
         txtGiam.setText(v.getGiam() + "");
         txtstart.setText(v.getNgayBatDau());
@@ -291,7 +295,9 @@ public class SuaVoucher extends javax.swing.JFrame {
         if(rachuadung.isSelected())
             dadung="chưa";
         Voucher vo = new Voucher(v.getMa(), giam, apdungcho, ngaybatdau, ngayketthuc, giamtoida, solandung, dadung, v.getThoidiemdung());
-        new ManagerVoucher().updateVoucher(vo);
+        ManagerVoucher aa = new ManagerVoucher();
+        aa.updateVoucher(vo);
+        aa.closeConnection();
         JOptionPane.showMessageDialog(null, "Sửa thành công");
         QLVoucher a = new QLVoucher();
         a.setLocationRelativeTo(null);

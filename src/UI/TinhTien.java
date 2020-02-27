@@ -6,18 +6,17 @@
 package UI;
 
 import Core.Bill;
-import Core.Order;
 import Manager.ManagerBill;
 import Manager.ManagerKhachHang;
 import Manager.ManagerOrder;
 import Manager.ManagerTempData;
+import Manager.ManagerVoucher;
 import java.awt.Color;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -32,61 +31,69 @@ public class TinhTien extends javax.swing.JFrame {
      * Creates new form TinhTien
      * @return 
      */
+    
     public String getBill(){
-        String makh = new ManagerTempData().getTempKH();
-        Bill bill = new ManagerBill().findBill(new ManagerTempData().getTempTable());
+        ManagerBill aa = new ManagerBill();
+        ManagerTempData bb = new ManagerTempData();
+        ManagerKhachHang kk = new ManagerKhachHang();
+        String makh = bb.getTempKH();
+        Bill bill = aa.findBill(bb.getTempTable());
         String kq = "";
         kq+="                        BLAS COFFEE\n";
-        kq+="Địa chỉ : 182 Nguyễn Xí, Hòa Minh, Liên Chiểu, Đà Nẵng\n\n";
+        kq+="Địa chỉ : 182 Nguyễn Xí, tp Đà Nẵng\n\n";
         kq+="                          HÓA ĐƠN\n\n";
         if (!makh.equals("0")) {
-            String tenkh= new ManagerKhachHang().getNameKH(makh);
+            String tenkh= kk.getNameKH(makh);
             kq += "              Khách hàng : " + tenkh.toUpperCase() + "\n";
         }
         kq += "    Thời gian vào : " + bill.getThoiGianVao() + "\n";
         kq += "    Thời gian ra   : " + new Map().getDateTime() + "\n\n";
-        kq+= new ManagerBill().TinhTien(new ManagerTempData().getTempTable());
+        kq+= aa.TinhTien(bb.getTempTable());
+        aa.closeConnection();
+        bb.closeConnection();
         return kq;
     }
     public String process(){
-        String makh = new ManagerTempData().getTempKH();
-        Bill bill = new ManagerBill().findBill(new ManagerTempData().getTempTable());
+        ManagerKhachHang kk = new ManagerKhachHang();
+        ManagerBill aa = new ManagerBill();
+        ManagerTempData bb = new ManagerTempData();
+        ManagerOrder cc = new ManagerOrder();
+        String makh = bb.getTempKH();
+        Bill bill = aa.findBill(bb.getTempTable());
         String kq = "";
         kq+="                        BLAS COFFEE\n";
-        kq+="Địa chỉ : 182 Nguyễn Xí, Hòa Minh, Liên Chiểu, Đà Nẵng\n\n";
+        kq+="Địa chỉ : 182 Nguyễn Xí, tp Đà Nẵng\n\n";
         kq+="                          HÓA ĐƠN\n\n";
         if (!makh.equals("")) {
             
-            String tenkh= new ManagerKhachHang().getNameKH(makh);
+            String tenkh= kk.getNameKH(makh);
             
             kq += "              Khách hàng : " + tenkh.toUpperCase() + "\n";
         }
         kq += "    Thời gian vào : " + bill.getThoiGianVao() + "\n";
         kq += "    Thời gian ra   : " + new Map().getDateTime() + "\n\n";
-        kq+= new ManagerBill().TinhTien(new ManagerTempData().getTempTable());
+        kq+= aa.TinhTien(bb.getTempTable());
+        String fileName = "C:\\Users\\nguye\\Desktop\\bill.txt";
+        File f = new File(fileName);
         try {
-            String fileName = "C:\\Users\\nguye\\Desktop\\bill.txt";
-            FileReader fr = new FileReader(fileName);
-            BufferedReader br = new BufferedReader(fr);
-            try {
-                FileWriter fw = new FileWriter(fileName);
-                PrintWriter pw = new PrintWriter(fw);
-                pw.println(kq);
-                pw.close();
-                fw.close();
-            } catch (IOException ex) {
-                Logger.getLogger(Order.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            new ManagerOrder().deleteOrder(new ManagerTempData().getTempTable());
-            this.hide();
-            Map a = new Map();
-            a.setLocationRelativeTo(null);
-            a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            a.setVisible(true);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Order.class.getName()).log(Level.SEVERE, null, ex);
+            OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(fileName), StandardCharsets.UTF_8);
+            osw.write(kq);
+            osw.close();
+        } catch (IOException ex) {
+            Logger.getLogger(TinhTien.class.getName()).log(Level.SEVERE, null, ex);
         }
-        new ManagerBill().deleteBill(new ManagerTempData().getTempTable());
+
+        cc.deleteOrder(bb.getTempTable());
+        this.hide();
+        Map a = new Map();
+        a.setLocationRelativeTo(null);
+        a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        a.setVisible(true);
+        aa.deleteBill(bb.getTempTable());
+        aa.closeConnection();
+        bb.closeConnection();
+        cc.closeConnection();
+        kk.closeConnection();
         return kq;
     }
     public TinhTien() {
@@ -219,22 +226,25 @@ public class TinhTien extends javax.swing.JFrame {
 
     private void btnTTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTTActionPerformed
         // TODO add your handling code here:
+        ManagerTempData bb = new ManagerTempData();
+        ManagerKhachHang kk = new ManagerKhachHang();
         if(!txtID.getText().toString().trim().equals("")){
-            if(!new ManagerKhachHang().checkExitsKH(txtID.getText().toString().trim())){
+            if(!kk.checkExitsKH(txtID.getText().toString().trim())){
                 JOptionPane.showMessageDialog(null, "Không tồn tại mã khách hàng này");
                 return;
             }
-            new ManagerTempData().writeTempKH(txtID.getText().toString().trim());
+            kk.closeConnection();
+            bb.writeTempKH(txtID.getText().toString().trim());
         }
         String v = txtVou.getText().toString().trim();
         if(!v.equals("")){
-            if(!new Manager.ManagerVoucher().checkExitsVoucher(v)){
+            if(!new ManagerVoucher().checkExitsVoucher(v)){
                 JOptionPane.showMessageDialog(null, "Không tìm thấy voucher này");
                 return;
             }
             String datenow = getDate();
-            String datestartvoucher = new Manager.ManagerVoucher().findVoucher(v).getNgayBatDau();
-            String dateendvoucher = new Manager.ManagerVoucher().findVoucher(v).getNgayKetThuc();
+            String datestartvoucher = new ManagerVoucher().findVoucher(v).getNgayBatDau();
+            String dateendvoucher = new ManagerVoucher().findVoucher(v).getNgayKetThuc();
             if(datenow.compareTo(datestartvoucher)<0){
                 JOptionPane.showMessageDialog(null, "Chưa tới ngày áp dụng được voucher này");
                 return;
@@ -247,11 +257,12 @@ public class TinhTien extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Voucher đã quá ngày sử dụng");
                 return;
             }
-            if(new Manager.ManagerVoucher().checkDaDungVoucher(v)){
+            if(new ManagerVoucher().checkDaDungVoucher(v)){
                 JOptionPane.showMessageDialog(null, "Voucher này đã được sử dụng bởi người khác");
                 return;
             }
-            new ManagerTempData().writeTempVoucher(txtVou.getText().toString().trim());
+            bb.writeTempVoucher(txtVou.getText().toString().trim());
+            bb.closeConnection();
         }
         TienThua a = new TienThua();
         a.setLocationRelativeTo(null);
@@ -271,10 +282,6 @@ public class TinhTien extends javax.swing.JFrame {
 
     private void txtIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIDActionPerformed
         // TODO add your handling code here:
-        AddNewKH a = new AddNewKH();
-        a.setLocationRelativeTo(null);
-        a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        a.setVisible(true);
     }//GEN-LAST:event_txtIDActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
@@ -288,24 +295,26 @@ public class TinhTien extends javax.swing.JFrame {
 
     private void btnDiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDiemActionPerformed
         // TODO add your handling code here:
+        ManagerTempData bb = new ManagerTempData();
+        ManagerKhachHang kk = new ManagerKhachHang();
         if(txtID.getText().toString().trim().equals("")){
             JOptionPane.showMessageDialog(null, "Không thể dùng điểm vì chưa nhập mã KH");
             return;
         }
-        if(!new ManagerKhachHang().checkExitsKH(txtID.getText().toString().trim())){
+        if(!kk.checkExitsKH(txtID.getText().toString().trim())){
             JOptionPane.showMessageDialog(null, "Không tồn tại mã khách hàng này");
             return;
         }
-        new ManagerTempData().writeTempKH(txtID.getText().toString().trim());
+        bb.writeTempKH(txtID.getText().toString().trim());
         String v = txtVou.getText().toString().trim();
         if(!v.equals("")){
-            if(!new Manager.ManagerVoucher().checkExitsVoucher(v)){
+            if(!new ManagerVoucher().checkExitsVoucher(v)){
                 JOptionPane.showMessageDialog(null, "Không tìm thấy voucher này");
                 return;
             }
             String datenow = getDate();
-            String datestartvoucher = new Manager.ManagerVoucher().findVoucher(v).getNgayBatDau();
-            String dateendvoucher = new Manager.ManagerVoucher().findVoucher(v).getNgayKetThuc();
+            String datestartvoucher = new ManagerVoucher().findVoucher(v).getNgayBatDau();
+            String dateendvoucher = new ManagerVoucher().findVoucher(v).getNgayKetThuc();
             if(datenow.compareTo(datestartvoucher)<0){
                 JOptionPane.showMessageDialog(null, "Chưa tới ngày áp dụng được voucher này");
                 return;
@@ -318,12 +327,14 @@ public class TinhTien extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Voucher đã quá ngày sử dụng");
                 return;
             }
-            if(new Manager.ManagerVoucher().checkDaDungVoucher(v)){
+            if(new ManagerVoucher().checkDaDungVoucher(v)){
                 JOptionPane.showMessageDialog(null, "Voucher này đã được sử dụng bởi người khác");
                 return;
             }
-            new ManagerTempData().writeTempVoucher(txtVou.getText().toString().trim());
+            bb.writeTempVoucher(txtVou.getText().toString().trim());
         }
+        bb.closeConnection();
+        kk.closeConnection();
         DungDiem a = new DungDiem();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);

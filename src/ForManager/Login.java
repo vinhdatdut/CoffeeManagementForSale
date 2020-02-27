@@ -140,6 +140,7 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Mật khẩu không chính xác");
             return;
         }
+        closeConnection();
         Main a = new Main();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);

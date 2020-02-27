@@ -5,7 +5,11 @@
  */
 package UI;
 
+import Core.Order;
+import Manager.ManagerBill;
+import Manager.ManagerOrder;
 import Manager.ManagerTempData;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
@@ -43,6 +47,7 @@ public class GopDon extends javax.swing.JFrame {
         txtTable = new javax.swing.JTextField();
         btnOK = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -62,6 +67,8 @@ public class GopDon extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setText("Bàn đang ngồi sẽ được gộp chuyển đến bàn ở trên");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -75,11 +82,12 @@ public class GopDon extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtTable, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(txtTable, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel2)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(116, 116, 116)
+                        .addGap(118, 118, 118)
                         .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -90,9 +98,11 @@ public class GopDon extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(40, 40, 40)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addGap(32, 32, 32))
         );
 
         pack();
@@ -110,8 +120,10 @@ public class GopDon extends javax.swing.JFrame {
             return;
         }
         String ban = txtTable.getText().toString().trim();
-        if(ban.equals(new ManagerTempData().getTempTable())){
+        ManagerTempData bb = new ManagerTempData();
+        if(ban.equals(bb.getTempTable())){
             JOptionPane.showMessageDialog(null, "Không được chọn bàn đang ngồi");
+            bb.closeConnection();
             this.hide();
             OrderUI a = new OrderUI();
             a.setLocationRelativeTo(null);
@@ -119,6 +131,7 @@ public class GopDon extends javax.swing.JFrame {
             a.setVisible(true);
             return;
         }
+        
         if(!checkChuyenBan(ban)){
             JOptionPane.showMessageDialog(null, "Bàn không hợp lệ");
             this.hide();
@@ -128,7 +141,7 @@ public class GopDon extends javax.swing.JFrame {
             a.setVisible(true);
             return;
         }
-        if(new Manager.ManagerOrder().checkTableEmpty(ban)){
+        if(new ManagerOrder().checkTableEmpty(ban)){
             JOptionPane.showMessageDialog(null, "Không thể gộp với bàn trống");
             this.hide();
             OrderUI a = new OrderUI();
@@ -138,8 +151,26 @@ public class GopDon extends javax.swing.JFrame {
             return;
         }
         if(checkChuyenBan(ban)){
-            new Manager.ManagerBill().deleteBill(ban);
-            new Manager.ManagerOrder().updateBanOrder(new ManagerTempData().getTempTable(), ban);
+            ManagerOrder cc = new ManagerOrder();
+            ArrayList<Order> list = cc.findOrder(bb.getTempTable());
+            bb.closeConnection();
+            for(Order i: list){
+                if(cc.HaveYetThisFoodInTable(i.getTenMon(), ban)){
+                    Order o = cc.findOrderByBanAndTenMon(ban, i.getTenMon());
+                    o.setSoluong(o.getSoluong()+i.getSoluong());
+                    cc.updateSoLuongOrder(o);
+                }else{
+                    Order order = new Order(ban, i.getMamon(), i.getTenMon(), i.getSoluong());
+                    cc.addNewOrder(order);
+                }
+                cc.closeConnection();
+            }
+            cc.deleteOrder(bb.getTempTable());
+            ManagerBill gg = new ManagerBill();
+            gg.deleteBill(bb.getTempTable());
+            bb.closeConnection();
+            cc.closeConnection();
+            gg.closeConnection();
             JOptionPane.showMessageDialog(null, "Đã gộp");
             this.hide();
             Map a = new Map();
@@ -197,6 +228,7 @@ public class GopDon extends javax.swing.JFrame {
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnOK;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField txtTable;
     // End of variables declaration//GEN-END:variables
 }

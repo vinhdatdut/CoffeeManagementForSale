@@ -136,8 +136,10 @@ public class ThemMon extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Nhập mã món");
             return;
         }
-        if (new ManagerMenu().checkExitsMenu(txtID.getText().toString().trim())) {
+        ManagerMenu aa = new ManagerMenu();
+        if (aa.checkExitsMenu(txtID.getText().toString().trim())) {
             JOptionPane.showMessageDialog(null, "Đã có món này trong menu");
+            aa.closeConnection();
             return;
         }
         if (txtName.getText().toString().trim().equals("")) {
@@ -149,7 +151,8 @@ public class ThemMon extends javax.swing.JFrame {
             return;
         }
         Menu m = new Menu(txtID.getText().toString().trim(), txtName.getText().toString().trim(), Double.parseDouble(txtGia.getText().toString().trim()), txtAdd.getText().toString().trim(), 0);
-        new ManagerMenu().addNewMenu(m);
+        aa.addNewMenu(m);
+        aa.closeConnection();
         JOptionPane.showMessageDialog(null, "Thêm thành công");
         QLMenu a = new QLMenu();
         a.setLocationRelativeTo(null);

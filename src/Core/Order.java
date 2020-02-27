@@ -2,8 +2,17 @@ package Core;
 
 public class Order {
 	private String ban;
+        private String mamon;
 	private String TenMon;
 	private Double Soluong;
+
+        public String getMamon() {
+            return mamon;
+        }
+
+        public void setMamon(String mamon) {
+            this.mamon = mamon;
+        }
 	public String getBan() {
 		return ban;
 	}
@@ -22,9 +31,10 @@ public class Order {
 	public void setSoluong(Double soluong) {
 		Soluong = soluong;
 	}
-	public Order(String ban, String tenMon, Double soluong) {
+	public Order(String ban, String mamon, String tenMon, Double soluong) {
 		super();
 		this.ban = ban;
+                this.mamon = mamon;
 		TenMon = tenMon;
 		Soluong = soluong;
 	}

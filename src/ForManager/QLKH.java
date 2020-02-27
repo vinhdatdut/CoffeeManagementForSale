@@ -8,8 +8,13 @@ package ForManager;
 import Core.KhachHang;
 import Manager.ManagerKhachHang;
 import Manager.ManagerTempData;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
@@ -35,7 +40,9 @@ public class QLKH extends javax.swing.JFrame {
         } else {
             rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + txtFind.getText()));
         }
-        ArrayList<KhachHang> list = new ManagerKhachHang().findAllKH();
+        ManagerKhachHang aa = new ManagerKhachHang();
+        ArrayList<KhachHang> list = aa.findAllKH();
+        aa.closeConnection();
         Vector head = new Vector();
         Vector data = new Vector();
         head.add("Mã KH");
@@ -107,6 +114,7 @@ public class QLKH extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btnBack = new javax.swing.JButton();
         txtUpdate = new javax.swing.JButton();
+        btnget = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -139,6 +147,13 @@ public class QLKH extends javax.swing.JFrame {
             }
         });
 
+        btnget.setText("Lấy email");
+        btnget.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btngetActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -155,13 +170,15 @@ public class QLKH extends javax.swing.JFrame {
                         .addGap(310, 310, 310)
                         .addComponent(txtUpdate)
                         .addGap(88, 88, 88)
-                        .addComponent(btnBack)))
-                .addContainerGap(863, Short.MAX_VALUE))
+                        .addComponent(btnBack)
+                        .addGap(76, 76, 76)
+                        .addComponent(btnget)))
+                .addContainerGap(734, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtFind, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -169,7 +186,8 @@ public class QLKH extends javax.swing.JFrame {
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnget, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 46, Short.MAX_VALUE))
         );
 
@@ -192,14 +210,36 @@ public class QLKH extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, " Vui lòng chọn khách hàng để sửa");
             return;
         }
+        ManagerTempData bb = new ManagerTempData();
         String id = table.getValueAt(row, 0).toString().trim();
-        new ManagerTempData().writeTempMon(id);
+        bb.writeTempMon(id);
+        bb.closeConnection();
         SuaKH a = new SuaKH();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         a.setVisible(true);
         this.hide();
     }//GEN-LAST:event_txtUpdateActionPerformed
+
+    private void btngetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btngetActionPerformed
+        // TODO add your handling code here:
+         int row = table.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(null, " Vui lòng chọn khách hàng để lấy email");
+            return;
+        }
+        String temp = table.getValueAt(row, 5).toString().trim();
+        try {
+            String fileName = "C:\\Users\\nguye\\Desktop\\emailList.txt";
+            FileWriter fw = new FileWriter(fileName,true);
+            PrintWriter pw = new PrintWriter(fw,true);
+            pw.println(temp);
+            pw.close();
+            fw.close();
+        } catch (IOException ex) {
+            Logger.getLogger(QLKH.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btngetActionPerformed
 
     /**
      * @param args the command line arguments
@@ -238,6 +278,7 @@ public class QLKH extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnget;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable table;

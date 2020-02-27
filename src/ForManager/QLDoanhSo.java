@@ -7,7 +7,6 @@ package ForManager;
 
 import Core.DataShop;
 import Manager.ManagerDataShop;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -41,6 +40,7 @@ public class QLDoanhSo extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         txtkq = new javax.swing.JTextArea();
         btnBack = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,6 +74,13 @@ public class QLDoanhSo extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Hôm nay");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -93,14 +100,16 @@ public class QLDoanhSo extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txty, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(98, 98, 98)
+                        .addGap(55, 55, 55)
+                        .addComponent(jButton1)
+                        .addGap(29, 29, 29)
                         .addComponent(btnView)
-                        .addGap(48, 48, 48)
+                        .addGap(41, 41, 41)
                         .addComponent(btnBack))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(85, 85, 85)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(115, Short.MAX_VALUE))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -114,7 +123,8 @@ public class QLDoanhSo extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(txty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnView, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(86, 86, 86))
@@ -129,11 +139,12 @@ public class QLDoanhSo extends javax.swing.JFrame {
 
     private void btnViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewActionPerformed
         // TODO add your handling code here:
+        ManagerDataShop aa = new ManagerDataShop();
         String d = txtd.getText().toString().trim();
         String m = txtm.getText().toString().trim();
         String y = txty.getText().toString().trim();
         if (d.equals("") && m.equals("") && y.equals("")) {
-            DataShop da = new ManagerDataShop().findAll();
+            DataShop da = aa.findAll();
             String kq = "Tổng doanh thu chưa giảm     : " + da.getDoanhthu() + "\n";
             kq += "Tổng thực thu                : " + (da.getDoanhthu() - da.getTienvoucher() - da.getGiamtichluy()) + "\n";
             kq += "Tổng số tiền dùng voucher    : " + da.getTienvoucher() + "\n";
@@ -142,7 +153,7 @@ public class QLDoanhSo extends javax.swing.JFrame {
         }
         if (d.equals("") && m.equals("") && !y.equals("")) {
             int ye = Integer.parseInt(txty.getText().trim());
-            DataShop da = new ManagerDataShop().findAllByYear(ye);
+            DataShop da = aa.findAllByYear(ye);
             String kq = "Tổng doanh thu chưa giảm     : " + da.getDoanhthu() + "\n";
             kq += "Tổng thực thu                : " + (da.getDoanhthu() - da.getTienvoucher() - da.getGiamtichluy()) + "\n";
             kq += "Tổng số tiền dùng voucher    : " + da.getTienvoucher() + "\n";
@@ -152,7 +163,7 @@ public class QLDoanhSo extends javax.swing.JFrame {
         if (d.equals("") && !m.equals("") && !y.equals("")) {
             int ye = Integer.parseInt(txty.getText().toString().trim());
             int mo = Integer.parseInt(txtm.getText().toString().trim());
-            DataShop da = new ManagerDataShop().findAllByMonthYear(mo, ye);
+            DataShop da = aa.findAllByMonthYear(mo, ye);
             String kq = "Tổng doanh thu chưa giảm     : " + da.getDoanhthu() + "\n";
             kq += "Tổng thực thu                : " + (da.getDoanhthu() - da.getTienvoucher() - da.getGiamtichluy()) + "\n";
             kq += "Tổng số tiền dùng voucher    : " + da.getTienvoucher() + "\n";
@@ -163,13 +174,14 @@ public class QLDoanhSo extends javax.swing.JFrame {
             int ye = Integer.parseInt(txty.getText().toString().trim());
             int mo = Integer.parseInt(txtm.getText().toString().trim());
             int da = Integer.parseInt(txtd.getText().toString().trim());
-            DataShop dat = new ManagerDataShop().findAllByDayMonthYear(da, mo, ye);
+            DataShop dat = aa.findAllByDayMonthYear(da, mo, ye);
             String kq = "Tổng doanh thu chưa giảm     : " + dat.getDoanhthu() + "\n";
             kq += "Tổng thực thu                : " + (dat.getDoanhthu() - dat.getTienvoucher() - dat.getGiamtichluy()) + "\n";
             kq += "Tổng số tiền dùng voucher    : " + dat.getTienvoucher() + "\n";
             kq += "Tống số điểm tích lũy        : " + dat.getGiamtichluy();            
             txtkq.setText(kq);
         }
+        aa.closeConnection();
     }//GEN-LAST:event_btnViewActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -180,6 +192,27 @@ public class QLDoanhSo extends javax.swing.JFrame {
         a.setVisible(true);
         this.hide();
     }//GEN-LAST:event_btnBackActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        System.out.println();
+        String s[] = java.time.LocalDate.now().toString().split("-");
+        int a[] = new int[3];
+        a[0]=Integer.parseInt(s[2]);
+        a[1]=Integer.parseInt(s[1]);
+        a[2]=Integer.parseInt(s[0]);
+        txtd.setText(s[2]);
+        txtm.setText(s[1]);
+        txty.setText(s[0]);
+        ManagerDataShop aa = new ManagerDataShop();
+        DataShop dat = aa.findAllByDayMonthYear(a[0], a[1], a[2]);
+        aa.closeConnection();
+        String kq = "Tổng doanh thu chưa giảm     : " + dat.getDoanhthu() + "\n";
+        kq += "Tổng thực thu                : " + (dat.getDoanhthu() - dat.getTienvoucher() - dat.getGiamtichluy()) + "\n";
+        kq += "Tổng số tiền dùng voucher    : " + dat.getTienvoucher() + "\n";
+        kq += "Tống số điểm tích lũy        : " + dat.getGiamtichluy();            
+        txtkq.setText(kq);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -220,6 +253,7 @@ public class QLDoanhSo extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnView;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -20,37 +20,46 @@ import javax.swing.table.DefaultTableModel;
  * @author VINH DAT
  */
 public class TachDon extends javax.swing.JFrame {
+
     /**
      * Creates new form TachDon
      */
-    public boolean checkChuyenBan(String ban){
-        String word[]={"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30"};
-        for(String i:word){
-            if(i.equals(ban))
+    public boolean checkChuyenBan(String ban) {
+        String word[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"};
+        for (String i : word) {
+            if (i.equals(ban)) {
                 return true;
+            }
         }
         return false;
     }
+
     public TachDon() {
         initComponents();
         next();
     }
 
     public void next() {
-        ArrayList<Order> list = new ManagerOrder().findOrder(new ManagerTempData().getTempTable());
+        ManagerTempData bb = new ManagerTempData();
+        ManagerOrder cc = new ManagerOrder();
+        ArrayList<Order> list = cc.findOrder(bb.getTempTable());
         Vector head = new Vector();
         Vector data = new Vector();
+        head.add("Mã món");
         head.add("Tên món");
         head.add("Số lượng gốc");
         head.add("Số lượng tách");
 
         for (Order i : list) {
             Vector row = new Vector();
+            row.add(i.getMamon());
             row.add(i.getTenMon());
             row.add(i.getSoluong());
+            row.add(0);
             data.add(row);
         }
-
+        bb.closeConnection();
+        cc.closeConnection();
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setDataVector(data, head);
     }
@@ -110,9 +119,6 @@ public class TachDon extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(76, 76, 76)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(56, 56, 56)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -120,8 +126,11 @@ public class TachDon extends javax.swing.JFrame {
                         .addGap(30, 30, 30)
                         .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(37, 37, 37)
-                        .addComponent(btnBack)))
-                .addContainerGap(87, Short.MAX_VALUE))
+                        .addComponent(btnBack))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(76, 76, 76)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 637, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(89, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,79 +162,105 @@ public class TachDon extends javax.swing.JFrame {
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
         // TODO add your handling code here:
+        ManagerBill aa = new ManagerBill();
+        ManagerTempData bb = new ManagerTempData();
+        ManagerOrder cc = new ManagerOrder();
         ArrayList<Order> kqNew = new ArrayList<>();
         ArrayList<Order> kqOld = new ArrayList<>();
-        int row = new ManagerOrder().countFoodInOrder(new ManagerTempData().getTempTable());
+        int row = cc.countFoodInOrder(bb.getTempTable());
         for (int i = 0; i < row; i++) {
-            double temptemp=0;
-            double SoLuongCu = Double.parseDouble(table.getValueAt(i, 1).toString().trim());
-            if (table.getValueAt(i, 2).toString()!=null) {
-                Double tempOld = Double.parseDouble(table.getValueAt(i, 1).toString());
-                Double tempNew = Double.parseDouble(table.getValueAt(i, 2).toString());
-                if(tempNew>tempOld){
+            double temptemp = 0;
+            double SoLuongCu = Double.parseDouble(table.getValueAt(i, 2).toString().trim());
+            if (table.getValueAt(i, 2).toString() != null) {
+                Double tempOld = Double.parseDouble(table.getValueAt(i, 2).toString());
+                Double tempNew = Double.parseDouble(table.getValueAt(i, 3).toString());
+                if (tempNew > tempOld) {
                     JOptionPane.showMessageDialog(null, "Số lượng tách không được lớn hơn số lượng gốc");
                     return;
                 }
-                if(tempNew>0){
-                    Order orderNew = new Order("", table.getValueAt(i, 0).toString(), tempNew);
-                    kqNew.add(orderNew);  
+                if (tempNew > 0) {
+                    Order orderNew = new Order("", table.getValueAt(i, 0).toString(), table.getValueAt(i, 1).toString(), tempNew);
+                    kqNew.add(orderNew);
                 }
-                temptemp=tempNew;
+                temptemp = tempNew;
             }
-            if(SoLuongCu-temptemp>0){
-                Order orderOld = new Order(new ManagerTempData().getTempTable(), table.getValueAt(i, 0).toString(), SoLuongCu-temptemp);
+            if (SoLuongCu - temptemp > 0) {
+                Order orderOld = new Order(bb.getTempTable(), table.getValueAt(i, 0).toString(), table.getValueAt(i, 1).toString(), SoLuongCu - temptemp);
                 kqOld.add(orderOld);
             }
         }
-        if(!txtTable.getText().toString().trim().equals("")){
+        if (!txtTable.getText().toString().trim().equals("")) {
             String ban = txtTable.getText().toString().trim();
-            if(ban.equals(new ManagerTempData().getTempTable())){
+            if (ban.equals(bb.getTempTable())) {
                 JOptionPane.showMessageDialog(null, "Không được chọn bàn đang ngồi");
                 return;
             }
-            if(!checkChuyenBan(ban)){
+            if (!checkChuyenBan(ban)) {
                 JOptionPane.showMessageDialog(null, "Bàn không hợp lệ");
                 return;
             }
-            if(!new Manager.ManagerOrder().checkTableEmpty(ban)){
-                JOptionPane.showMessageDialog(null, "Bàn này đã có người ngồi");
-                return;
+            cc.deleteOrder(bb.getTempTable());
+            int sl=0;
+            for (Order i : kqOld) {
+                sl+=i.getSoluong();
+                cc.addNewOrder(i);
             }
-            for(Order i:kqNew){
-                i.setBan(ban);
-                new ManagerOrder().addNewOrder(i);
+            Bill bill = new Bill("", ban, aa.getDateTime(bb.getTempTable()), "");
+            if(sl==0){
+                ManagerBill hh = new ManagerBill();
+                hh.deleteBill(bb.getTempTable());
+                hh.closeConnection();
             }
-            new ManagerOrder().deleteOrder(new ManagerTempData().getTempTable());
-            for(Order i:kqOld){
-                new ManagerOrder().addNewOrder(i);
+            for(Order i: kqNew){
+                if(cc.HaveYetThisFoodInTable(i.getTenMon(), ban)){
+                    Order o = cc.findOrderByBanAndTenMon(ban, i.getTenMon());
+                    o.setSoluong(o.getSoluong()+i.getSoluong());
+                    cc.updateSoLuongOrder(o);
+                }else{
+                    Order order = new Order(ban, i.getMamon(), i.getTenMon(), i.getSoluong());
+                    cc.addNewOrder(order);
+                }
+                cc.closeConnection();
             }
-            Bill bill = new Bill("", ban, new ManagerBill().getDateTime(new ManagerTempData().getTempTable()), "");
-            new ManagerBill().addNewBill(bill);
+            aa.addNewBill(bill);
             JOptionPane.showMessageDialog(null, "Đã tách");
             this.hide();
+            aa.closeConnection();
+            bb.closeConnection();
+            cc.closeConnection();
             Map a = new Map();
             a.setLocationRelativeTo(null);
             a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             a.setVisible(true);
-        }else{
-            for(Order i:kqNew){
-                i.setBan(new ManagerTempData().getTempTable()+"_tach");
-                new ManagerOrder().addNewOrder(i);
+        } else {
+            for (Order i : kqNew) {
+                i.setBan(bb.getTempTable() + "_tach");
+                cc.addNewOrder(i);
             }
-            new ManagerOrder().deleteOrder(new ManagerTempData().getTempTable());
-            for(Order i:kqOld){
-                new ManagerOrder().addNewOrder(i);
+            cc.deleteOrder(bb.getTempTable());
+            int sl = 0;
+            for (Order i : kqOld) {
+                sl += i.getSoluong();
+                cc.addNewOrder(i);
             }
-            Bill bill = new Bill("", new ManagerTempData().getTempTable()+"_tach", new ManagerBill().getDateTime(new ManagerTempData().getTempTable()), "");
-            new ManagerBill().addNewBill(bill);
-            new ManagerTempData().writeTempTable(new ManagerTempData().getTempTable()+"_tach");
+            Bill bill = new Bill("", bb.getTempTable() + "_tach", aa.getDateTime(bb.getTempTable()), "");
+            if (sl == 0) {
+                ManagerBill hh = new ManagerBill();
+                hh.deleteBill(bb.getTempTable());
+                hh.closeConnection();
+            }
+            aa.addNewBill(bill);
+            bb.writeTempTable(bb.getTempTable() + "_tach");
+            aa.closeConnection();
+            bb.closeConnection();
+            cc.closeConnection();
             TinhTien a = new TinhTien();
             a.setLocationRelativeTo(null);
             a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             a.setVisible(true);
             this.hide();
         }
-        
+
     }//GEN-LAST:event_btnOKActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed

@@ -30,9 +30,12 @@ import javax.swing.table.TableRowSorter;
  */
 public class AddFood extends javax.swing.JFrame {
 
+    ManagerMenu dd = new ManagerMenu();
     /**
      * Creates new form AddFood
      */
+    int dem=0;
+    ArrayList<Menu> list = dd.findAllMenu();
     public void next() {
         TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(table.getModel());
         table.setRowSorter(rowSorter);
@@ -41,15 +44,19 @@ public class AddFood extends javax.swing.JFrame {
         } else {
             rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + txtFind.getText()));
         }
-        ArrayList<Menu> list = new ManagerMenu().findAllFood();
+        dd.closeConnection();
         Vector head = new Vector();
         Vector data = new Vector();
+        head.add("Mã món");
         head.add("Tên món");
         head.add("Đơn giá");
+        head.add("Số lần đặt");
         for (Menu i : list) {
             Vector row = new Vector();
+            row.add(i.getMaMon());
             row.add(i.getTenMon());
             row.add(i.getDonGia());
+            row.add(i.getSolandat());
             data.add(row);
         }
         DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -85,6 +92,8 @@ public class AddFood extends javax.swing.JFrame {
         initComponents();
         btnOK.setBackground(Color.GREEN);
         btnOK.setFont(new Font("arial",Font.BOLD,20));
+        checkfood.setSelected(true);
+        checkbeverage.setSelected(true);
         next();
     }
 
@@ -107,6 +116,9 @@ public class AddFood extends javax.swing.JFrame {
         btnBack = new javax.swing.JButton();
         btnAdd = new javax.swing.JButton();
         btnSub = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        checkfood = new javax.swing.JCheckBox();
+        checkbeverage = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -153,52 +165,88 @@ public class AddFood extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Sắp xếp");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        checkfood.setText("FOOD");
+        checkfood.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkfoodActionPerformed(evt);
+            }
+        });
+
+        checkbeverage.setText("BEVERAGE");
+        checkbeverage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkbeverageActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(44, 44, 44)
+                .addComponent(btnBack)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(label)
+                .addGap(16, 16, 16))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1)
-                            .addComponent(txtFind))
-                        .addGap(36, 36, 36)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(btnAdd, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
-                                .addComponent(txtSoLuong)
-                                .addComponent(btnSub, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(label, javax.swing.GroupLayout.Alignment.TRAILING))
-                            .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(44, 44, 44)
-                        .addComponent(btnBack)))
-                .addContainerGap(61, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(txtFind, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(37, 37, 37)
+                                .addComponent(checkfood)
+                                .addGap(18, 18, 18)
+                                .addComponent(checkbeverage))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 731, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(77, 77, 77)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtSoLuong, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSub, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(label))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(btnSub, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(label))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(11, 11, 11)
+                        .addComponent(txtSoLuong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnSub, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(56, 56, 56)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(111, 111, 111)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(txtFind, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtSoLuong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(checkfood)
+                                .addComponent(checkbeverage)))
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 690, Short.MAX_VALUE)))
+                .addGap(12, 12, 12))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -217,18 +265,23 @@ public class AddFood extends javax.swing.JFrame {
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
         // TODO add your handling code here:
-        if(new ManagerOrder().checkTableEmpty(new ManagerTempData().getTempTable())){
-            Bill bill = new Bill("",new ManagerTempData().getTempTable(),new Map().getDateTime(),"");
-            new ManagerBill().addNewBill(bill);
+        ManagerBill aa = new ManagerBill();
+        ManagerTempData bb = new ManagerTempData();
+        ManagerOrder cc = new ManagerOrder();
+        if(cc.checkTableEmpty(bb.getTempTable())){
+            Bill bill = new Bill("",bb.getTempTable(),new Map().getDateTime(),"");
+            aa.addNewBill(bill);
+            aa.closeConnection();
         }
         
-        String ban = new ManagerTempData().getTempTable();
+        String ban = bb.getTempTable();
         int row = table.getSelectedRow();
         if (row == -1) {
             JOptionPane.showMessageDialog(null, " Vui lòng chọn món");
             return;
         }
-        String TenMon = table.getValueAt(row, 0).toString().trim();
+        String mamon = table.getValueAt(row, 0).toString().trim();
+        String TenMon = table.getValueAt(row, 1).toString().trim();
         if (txtSoLuong.getText().toString().trim().equals("")) {
             JOptionPane.showMessageDialog(null, " Vui lòng nhập số lượng");
             return;
@@ -237,14 +290,16 @@ public class AddFood extends javax.swing.JFrame {
         if(SoLuong<=0){
             JOptionPane.showMessageDialog(null, "Vui lòng nhập số lượng phù hợp");
         }
-        if(new ManagerOrder().HaveYetThisFoodInTable(TenMon, ban)){
-            Order o = new ManagerOrder().findOrderByBanAndTenMon(ban, TenMon);
+        if(cc.HaveYetThisFoodInTable(TenMon, ban)){
+            Order o = cc.findOrderByBanAndTenMon(ban, TenMon);
             o.setSoluong(o.getSoluong()+SoLuong);
-            new ManagerOrder().updateSoLuongOrder(o);
+            cc.updateSoLuongOrder(o);
         }else{
-            Order order = new Order(ban, TenMon, SoLuong);
-            new ManagerOrder().addNewOrder(order);
+            Order order = new Order(ban, mamon, TenMon, SoLuong);
+            cc.addNewOrder(order);
         }
+        bb.closeConnection();
+        cc.closeConnection();
         JOptionPane.showMessageDialog(null, " Đã thêm");
         this.hide();
         OrderUI a = new OrderUI();
@@ -277,6 +332,85 @@ public class AddFood extends javax.swing.JFrame {
             txtSoLuong.setText(""+(Double.parseDouble(txtSoLuong.getText().toString().trim())-1));
         }
     }//GEN-LAST:event_btnSubActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        dem++;
+        if(dem%2==1){
+            if(checkfood.isSelected() && !checkbeverage.isSelected()){
+                list = dd.findAllFoodSort1();
+                dd.closeConnection();
+                next();
+            }
+            if(!checkfood.isSelected() && checkbeverage.isSelected()){
+                list = dd.findAllBeverageSort1();
+                dd.closeConnection();
+                next();
+            }
+            if(checkfood.isSelected() && checkbeverage.isSelected()){
+                list = dd.findAllMenuSort1();
+                dd.closeConnection();
+                next();
+            }
+        }
+        else{
+            if(checkfood.isSelected() && !checkbeverage.isSelected()){
+                list = dd.findAllFoodSort2();
+                dd.closeConnection();
+                next();
+            }
+            if(!checkfood.isSelected() && checkbeverage.isSelected()){
+                list = dd.findAllBeverageSort2();
+                dd.closeConnection();
+                next();
+            }
+            if(checkfood.isSelected() && checkbeverage.isSelected()){
+                list = dd.findAllMenuSort2();
+                dd.closeConnection();
+                next();
+            }
+        }
+        next();
+        dd.closeConnection();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void checkfoodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkfoodActionPerformed
+        // TODO add your handling code here:
+        if(checkfood.isSelected() && !checkbeverage.isSelected()){
+            list = dd.findAllFood();
+            dd.closeConnection();
+            next();
+        }
+        if(!checkfood.isSelected() && checkbeverage.isSelected()){
+            list = dd.findAllBeverage();
+            dd.closeConnection();
+            next();
+        }
+        if(checkfood.isSelected() && checkbeverage.isSelected()){
+            list = dd.findAllMenu();
+            dd.closeConnection();
+            next();
+        }
+    }//GEN-LAST:event_checkfoodActionPerformed
+
+    private void checkbeverageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkbeverageActionPerformed
+        // TODO add your handling code here:
+        if(checkfood.isSelected() && !checkbeverage.isSelected()){
+            list = dd.findAllFood();
+            dd.closeConnection();
+            next();
+        }
+        if(!checkfood.isSelected() && checkbeverage.isSelected()){
+            list = dd.findAllBeverage();
+            dd.closeConnection();
+            next();
+        }
+        if(checkfood.isSelected() && checkbeverage.isSelected()){
+            list = dd.findAllMenu();
+            dd.closeConnection();
+            next();
+        }
+    }//GEN-LAST:event_checkbeverageActionPerformed
 
     /**
      * @param args the command line arguments
@@ -318,6 +452,9 @@ public class AddFood extends javax.swing.JFrame {
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnOK;
     private javax.swing.JButton btnSub;
+    private javax.swing.JCheckBox checkbeverage;
+    private javax.swing.JCheckBox checkfood;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel label;

@@ -48,7 +48,7 @@ public class ManagerOrder {
             Statement sta = getConnection().createStatement();
             ResultSet RS = sta.executeQuery(sql);
             while (RS.next() == true) {
-                Order order = new Order(RS.getString("ban"), RS.getString("TenMon"), RS.getDouble("SoLuong"));
+                Order order = new Order(RS.getString("ban"), RS.getString("mamon"), RS.getString("TenMon"), RS.getDouble("SoLuong"));
                 list.add(order);
             }
             return list;
@@ -66,7 +66,7 @@ public class ManagerOrder {
             ResultSet RS = sta.executeQuery(sql);
             Order order = null;
             if (RS.next() == true) {
-                order = new Order(RS.getString("ban"), RS.getString("TenMon"), RS.getDouble("SoLuong"));
+                order = new Order(RS.getString("ban"), RS.getString("mamon"), RS.getString("TenMon"), RS.getDouble("SoLuong"));
             }
             return order;
         } catch (SQLException ex) {
@@ -93,7 +93,7 @@ public class ManagerOrder {
 
     public void addNewOrder(Order order) {
         try {
-            String sql = "insert into orderDB values('" + order.getBan() + "','" + order.getTenMon() + "'," + order.getSoluong() + ")";
+            String sql = "insert into orderDB values('" + order.getBan() + "','" + order.getTenMon() + "'," + order.getSoluong() + ",'" + order.getMamon() + "')";
             Statement sta = getConnection().createStatement();
             sta.executeUpdate(sql);
             closeConnection();

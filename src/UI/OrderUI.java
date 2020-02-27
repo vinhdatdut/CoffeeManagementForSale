@@ -7,6 +7,7 @@ package UI;
 
 import Core.Order;
 import Manager.ManagerBill;
+import Manager.ManagerMenu;
 import Manager.ManagerOrder;
 import Manager.ManagerTempData;
 import java.awt.Color;
@@ -25,25 +26,46 @@ public class OrderUI extends javax.swing.JFrame {
     /**
      * Creates new form OrderUI
      */
-
     public void next() {
-        txtTimeVao.setText("Thời gian vào : " + new ManagerBill().getDateTime(new ManagerTempData().getTempTable()));
+        ManagerBill aa = new ManagerBill();
+        ManagerTempData bb = new ManagerTempData();
+        ManagerOrder cc = new ManagerOrder();
+        ManagerMenu dd = new ManagerMenu();
+        txtTimeVao.setText("Thời gian vào : " + aa.getDateTime(bb.getTempTable()));
         txtTimeVao.setFont(new Font("arial", Font.BOLD, 20));
-        txtTable.setText("Bàn " + new ManagerTempData().getTempTable());
+        txtTable.setText("Bàn " + bb.getTempTable());
         txtTable.setFont(new Font("arial", Font.BOLD, 30));
         btnMap.setFont(new Font("arial", Font.BOLD, 20));
-        ArrayList<Order> list = new ManagerOrder().findOrder(new ManagerTempData().getTempTable());
+        ArrayList<Order> list = cc.findOrder(bb.getTempTable());
         Vector head = new Vector();
         Vector data = new Vector();
+        head.add("Mã món");
         head.add("Tên món");
+        head.add("Đơn giá");
         head.add("Số lượng");
+        head.add("Thành tiền");
+        double s = 0;
         for (Order i : list) {
             Vector row = new Vector();
+            row.add(i.getMamon());
             row.add(i.getTenMon());
+            row.add(dd.getMoneyFood(i.getMamon()));
             row.add(i.getSoluong());
+            row.add(i.getSoluong() * dd.getMoneyFood(i.getMamon()));
+            s += i.getSoluong() * dd.getMoneyFood(i.getMamon());
             data.add(row);
+            dd.closeConnection();
         }
-
+        aa.closeConnection();
+        bb.closeConnection();
+        cc.closeConnection();
+        Vector row = new Vector();
+        row.add(null);
+        row.add(null);
+        row.add(null);
+        row.add(null);
+        row.add("TỔNG CỘNG : " + s + "đ");
+        data.add(row);
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setDataVector(data, head);
     }
@@ -51,15 +73,15 @@ public class OrderUI extends javax.swing.JFrame {
     public OrderUI() {
         initComponents();
         btnCharge.setBackground(Color.GREEN);
-        btnCharge.setFont(new Font("arial",Font.BOLD,20));
+        btnCharge.setFont(new Font("arial", Font.BOLD, 20));
         btnCancel.setBackground(Color.RED);
-        btnCancel.setFont(new Font("arial",Font.BOLD,20));
+        btnCancel.setFont(new Font("arial", Font.BOLD, 20));
         btnAdd.setBackground(Color.GREEN);
-        btnAdd.setFont(new Font("arial",Font.BOLD,20));
+        btnAdd.setFont(new Font("arial", Font.BOLD, 20));
         btnDeleteFood.setBackground(Color.RED);
-        btnDeleteFood.setFont(new Font("arial",Font.BOLD,20));
+        btnDeleteFood.setFont(new Font("arial", Font.BOLD, 20));
         btnUpdate.setBackground(Color.YELLOW);
-        btnUpdate.setFont(new Font("arial",Font.BOLD,20));
+        btnUpdate.setFont(new Font("arial", Font.BOLD, 20));
         next();
     }
 
@@ -181,21 +203,6 @@ public class OrderUI extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnAdd)
-                                .addGap(42, 42, 42)
-                                .addComponent(btnDeleteFood)
-                                .addGap(39, 39, 39)
-                                .addComponent(btnUpdate)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnCancel)
-                                .addGap(38, 38, 38))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 646, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(39, 39, 39)
                         .addComponent(btnMap, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -205,7 +212,22 @@ public class OrderUI extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(166, 166, 166)
                                 .addComponent(txtTimeVao)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 825, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnAdd)
+                                .addGap(42, 42, 42)
+                                .addComponent(btnDeleteFood)
+                                .addGap(39, 39, 39)
+                                .addComponent(btnUpdate)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 417, Short.MAX_VALUE)
+                                .addComponent(btnCancel)
+                                .addGap(38, 38, 38)))))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnCharge)
                     .addComponent(btnChangeTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -268,10 +290,14 @@ public class OrderUI extends javax.swing.JFrame {
 
     private void btnChargeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChargeActionPerformed
         // TODO add your handling code here:
-        if (new ManagerOrder().checkTableEmpty(new ManagerTempData().getTempTable())) {
-            JOptionPane.showMessageDialog(null, "Bàn trống không thể tính tiền"); 
+        ManagerTempData bb = new ManagerTempData();
+        ManagerOrder cc = new ManagerOrder();
+        if (cc.checkTableEmpty(bb.getTempTable())) {
+            JOptionPane.showMessageDialog(null, "Bàn trống không thể tính tiền");
             return;
         }
+        bb.closeConnection();
+        cc.closeConnection();
         TinhTien a = new TinhTien();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -290,14 +316,17 @@ public class OrderUI extends javax.swing.JFrame {
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
-        if (new ManagerOrder().checkTableEmpty(new ManagerTempData().getTempTable())) {
+        ManagerBill aa = new ManagerBill();
+        ManagerTempData bb = new ManagerTempData();
+        ManagerOrder cc = new ManagerOrder();
+        if (cc.checkTableEmpty(bb.getTempTable())) {
             JOptionPane.showMessageDialog(null, "Bàn trống không thể hủy");
             return;
         }
         int result = JOptionPane.showConfirmDialog(null, "Bạn có thực sự muốn hủy order này?", "Confirm Box", JOptionPane.YES_NO_OPTION);
         if (result == JOptionPane.YES_OPTION) {
-            new ManagerOrder().deleteOrder(new ManagerTempData().getTempTable());
-            new ManagerBill().deleteBill(new ManagerTempData().getTempTable());
+            cc.deleteOrder(bb.getTempTable());
+            aa.deleteBill(bb.getTempTable());
             JOptionPane.showMessageDialog(null, "Đã hủy order");
             Map a = new Map();
             a.setLocationRelativeTo(null);
@@ -305,6 +334,9 @@ public class OrderUI extends javax.swing.JFrame {
             a.setVisible(true);
             this.hide();
         }
+        aa.closeConnection();
+        bb.closeConnection();
+        cc.closeConnection();
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnMapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMapActionPerformed
@@ -318,10 +350,14 @@ public class OrderUI extends javax.swing.JFrame {
 
     private void btnChangeTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangeTableActionPerformed
         // TODO add your handling code here:
-        if (new ManagerOrder().checkTableEmpty(new ManagerTempData().getTempTable())) {
+        ManagerTempData bb = new ManagerTempData();
+        ManagerOrder cc = new ManagerOrder();
+        if (cc.checkTableEmpty(bb.getTempTable())) {
             JOptionPane.showMessageDialog(null, "Bàn trống không được chuyển");
             return;
         }
+        bb.closeConnection();
+        cc.closeConnection();
         ChuyenBan a = new ChuyenBan();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -331,10 +367,14 @@ public class OrderUI extends javax.swing.JFrame {
 
     private void btnGopDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGopDonActionPerformed
         // TODO add your handling code here:
-        if (new ManagerOrder().checkTableEmpty(new ManagerTempData().getTempTable())) {
+        ManagerTempData bb = new ManagerTempData();
+        ManagerOrder cc = new ManagerOrder();
+        if (cc.checkTableEmpty(bb.getTempTable())) {
             JOptionPane.showMessageDialog(null, "Bàn trống không được gộp");
             return;
         }
+        bb.closeConnection();
+        cc.closeConnection();
         GopDon a = new GopDon();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -344,10 +384,14 @@ public class OrderUI extends javax.swing.JFrame {
 
     private void btnTachDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTachDonActionPerformed
         // TODO add your handling code here:
-        if (new ManagerOrder().checkTableEmpty(new ManagerTempData().getTempTable())) {
+        ManagerTempData bb = new ManagerTempData();
+        ManagerOrder cc = new ManagerOrder();
+        if (cc.checkTableEmpty(bb.getTempTable())) {
             JOptionPane.showMessageDialog(null, "Bàn trống không được tách");
             return;
         }
+        bb.closeConnection();
+        cc.closeConnection();
         TachDon a = new TachDon();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -357,20 +401,29 @@ public class OrderUI extends javax.swing.JFrame {
 
     private void btnDeleteFoodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteFoodActionPerformed
         // TODO add your handling code here:
-        if (new ManagerOrder().checkTableEmpty(new ManagerTempData().getTempTable())) {
+        ManagerTempData bb = new ManagerTempData();
+        ManagerOrder cc = new ManagerOrder();
+        if (cc.checkTableEmpty(bb.getTempTable())) {
             JOptionPane.showMessageDialog(null, "Bàn trống không có gì để xóa");
             return;
         }
         int row = table.getSelectedRow();
+        String s = table.getValueAt(row, 4).toString();
+        if(s.contains("TỔNG CỘNG")){
+            return;
+        }
+        System.out.println(s);
         if (row == -1) {
             JOptionPane.showMessageDialog(null, " Vui lòng chọn món để xóa khỏi order");
             return;
         }
-        String TenMon = table.getValueAt(row, 0).toString().trim();
-        new ManagerOrder().deleteFood(TenMon, new ManagerTempData().getTempTable());
-        if(new ManagerOrder().checkTableEmpty(new ManagerTempData().getTempTable())){
-            new Manager.ManagerBill().deleteBill(new ManagerTempData().getTempTable());
+        String TenMon = table.getValueAt(row, 1).toString().trim();
+        cc.deleteFood(TenMon, bb.getTempTable());
+        if (cc.checkTableEmpty(bb.getTempTable())) {
+            new Manager.ManagerBill().deleteBill(bb.getTempTable());
         }
+        bb.closeConnection();
+        cc.closeConnection();
         JOptionPane.showMessageDialog(null, "Xóa thành công");
         OrderUI a = new OrderUI();
         a.setLocationRelativeTo(null);
@@ -381,10 +434,14 @@ public class OrderUI extends javax.swing.JFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-        if (new ManagerOrder().checkTableEmpty(new ManagerTempData().getTempTable())) {
+        ManagerTempData bb = new ManagerTempData();
+        ManagerOrder cc = new ManagerOrder();
+        if (cc.checkTableEmpty(bb.getTempTable())) {
             JOptionPane.showMessageDialog(null, "Bàn trống không có gì để sửa");
             return;
         }
+        bb.closeConnection();
+        cc.closeConnection();
         SuaSL a = new SuaSL();
         a.setLocationRelativeTo(null);
         a.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -422,13 +479,13 @@ public class OrderUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             OrderUI o = new OrderUI();
+
             public void run() {
                 o.setTitle("Chi tiết order");
                 o.setVisible(true);
             }
         });
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnCancel;

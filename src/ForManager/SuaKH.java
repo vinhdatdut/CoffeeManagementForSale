@@ -22,7 +22,11 @@ public class SuaKH extends javax.swing.JFrame {
      */
     public SuaKH() {
         initComponents();
-        k = new ManagerKhachHang().findKH(new ManagerTempData().getTempMon());
+        ManagerKhachHang aa = new ManagerKhachHang();
+        ManagerTempData bb = new ManagerTempData();
+        k = aa.findKH(bb.getTempMon());
+        aa.closeConnection();
+        bb.closeConnection();
         txtID.setText("Mã khách hàng: " + k.getMaKH());
         txtName.setText(k.getTenKH());
         txtDate.setText(k.getNgaySinh());
@@ -216,7 +220,9 @@ public class SuaKH extends javax.swing.JFrame {
         String email = txtEmail.getText().toString().trim();
         String diachi = txtAdd.getText().toString().trim();
         KhachHang kh = new KhachHang(k.getMaKH(), ten, gioitinh, date, sdt, email, diachi, k.getDiem());
-        new Manager.ManagerKhachHang().updateKH(kh);
+        ManagerKhachHang aa = new ManagerKhachHang();
+        aa.updateKH(kh);
+        aa.closeConnection();
         JOptionPane.showMessageDialog(null, "Sửa thành công");
         QLKH a = new QLKH();
         a.setLocationRelativeTo(null);

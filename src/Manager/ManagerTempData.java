@@ -211,7 +211,6 @@ public class ManagerTempData {
             Logger.getLogger(ManagerOrder.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
     public void writeTempDiem(String s) {
         try {
             String sql = " update tempdata set tempDiem = '" + s + "'";
