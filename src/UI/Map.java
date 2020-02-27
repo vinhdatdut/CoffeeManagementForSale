@@ -30,8 +30,10 @@ public class Map extends javax.swing.JFrame {
      */
     public String getDateTime() {
         String date = "" + java.time.LocalDateTime.now();
-        String word[] = date.split("T");
-        date = word[0] + " " + word[1].substring(0,8);
+        String word[] = date.split("T"); 
+        String word2[] = word[0].split("-");
+        String s = word2[2] + "/" + word2[1] + "/" + word2[0];
+        date = word[1].substring(0, 8) + "  " + s;
         return date;
     }
     public String getDate(){

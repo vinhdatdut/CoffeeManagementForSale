@@ -27,33 +27,36 @@ import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
  * @author VINH DAT
  */
 public class TinhTien extends javax.swing.JFrame {
+
     /**
      * Creates new form TinhTien
-     * @return 
+     *
+     * @return
      */
-    
-    public String getBill(){
+
+    public String getBill() {
         ManagerBill aa = new ManagerBill();
         ManagerTempData bb = new ManagerTempData();
         ManagerKhachHang kk = new ManagerKhachHang();
         String makh = bb.getTempKH();
         Bill bill = aa.findBill(bb.getTempTable());
         String kq = "";
-        kq+="                        BLAS COFFEE\n";
-        kq+="Địa chỉ : 182 Nguyễn Xí, tp Đà Nẵng\n\n";
-        kq+="                          HÓA ĐƠN\n\n";
+        kq += "                        BLAS COFFEE\n";
+        kq += "Địa chỉ : 182 Nguyễn Xí, tp Đà Nẵng\n\n";
+        kq += "                          HÓA ĐƠN\n\n";
         if (!makh.equals("0")) {
-            String tenkh= kk.getNameKH(makh);
+            String tenkh = kk.getNameKH(makh);
             kq += "              Khách hàng : " + tenkh.toUpperCase() + "\n";
         }
         kq += "    Thời gian vào : " + bill.getThoiGianVao() + "\n";
-        kq += "    Thời gian ra   : " + new Map().getDateTime() + "\n\n";
-        kq+= aa.TinhTien(bb.getTempTable());
+        kq += "    Thời gian ra    : " + new Map().getDateTime() + "\n\n";
+        kq += aa.TinhTien(bb.getTempTable());
         aa.closeConnection();
         bb.closeConnection();
         return kq;
     }
-    public String process(){
+
+    public String process() {
         ManagerKhachHang kk = new ManagerKhachHang();
         ManagerBill aa = new ManagerBill();
         ManagerTempData bb = new ManagerTempData();
@@ -61,18 +64,18 @@ public class TinhTien extends javax.swing.JFrame {
         String makh = bb.getTempKH();
         Bill bill = aa.findBill(bb.getTempTable());
         String kq = "";
-        kq+="                        BLAS COFFEE\n";
-        kq+="Địa chỉ : 182 Nguyễn Xí, tp Đà Nẵng\n\n";
-        kq+="                          HÓA ĐƠN\n\n";
+        kq += "                        BLAS COFFEE\n";
+        kq += "Địa chỉ : 182 Nguyễn Xí, tp Đà Nẵng\n\n";
+        kq += "                          HÓA ĐƠN\n\n";
         if (!makh.equals("")) {
-            
-            String tenkh= kk.getNameKH(makh);
-            
+
+            String tenkh = kk.getNameKH(makh);
+
             kq += "              Khách hàng : " + tenkh.toUpperCase() + "\n";
         }
         kq += "    Thời gian vào : " + bill.getThoiGianVao() + "\n";
         kq += "    Thời gian ra   : " + new Map().getDateTime() + "\n\n";
-        kq+= aa.TinhTien(bb.getTempTable());
+        kq += aa.TinhTien(bb.getTempTable());
         String fileName = "C:\\Users\\nguye\\Desktop\\bill.txt";
         File f = new File(fileName);
         try {
@@ -96,16 +99,19 @@ public class TinhTien extends javax.swing.JFrame {
         kk.closeConnection();
         return kq;
     }
+
     public TinhTien() {
         initComponents();
         btnTT.setBackground(Color.GREEN);
         btnDiem.setBackground(Color.yellow);
     }
+
     public String getDate() {
         String date = "" + java.time.LocalDateTime.now();
         String word[] = date.split("T");
         return word[0];
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -228,8 +234,8 @@ public class TinhTien extends javax.swing.JFrame {
         // TODO add your handling code here:
         ManagerTempData bb = new ManagerTempData();
         ManagerKhachHang kk = new ManagerKhachHang();
-        if(!txtID.getText().toString().trim().equals("")){
-            if(!kk.checkExitsKH(txtID.getText().toString().trim())){
+        if (!txtID.getText().toString().trim().equals("")) {
+            if (!kk.checkExitsKH(txtID.getText().toString().trim())) {
                 JOptionPane.showMessageDialog(null, "Không tồn tại mã khách hàng này");
                 return;
             }
@@ -237,27 +243,27 @@ public class TinhTien extends javax.swing.JFrame {
             bb.writeTempKH(txtID.getText().toString().trim());
         }
         String v = txtVou.getText().toString().trim();
-        if(!v.equals("")){
-            if(!new ManagerVoucher().checkExitsVoucher(v)){
+        if (!v.equals("")) {
+            if (!new ManagerVoucher().checkExitsVoucher(v)) {
                 JOptionPane.showMessageDialog(null, "Không tìm thấy voucher này");
                 return;
             }
             String datenow = getDate();
             String datestartvoucher = new ManagerVoucher().findVoucher(v).getNgayBatDau();
             String dateendvoucher = new ManagerVoucher().findVoucher(v).getNgayKetThuc();
-            if(datenow.compareTo(datestartvoucher)<0){
+            if (datenow.compareTo(datestartvoucher) < 0) {
                 JOptionPane.showMessageDialog(null, "Chưa tới ngày áp dụng được voucher này");
                 return;
             }
-            if(datenow.compareTo(datestartvoucher)<0){
+            if (datenow.compareTo(datestartvoucher) < 0) {
                 JOptionPane.showMessageDialog(null, "Chưa tới ngày áp dụng được voucher này");
                 return;
             }
-            if(datenow.compareTo(dateendvoucher)>0){
+            if (datenow.compareTo(dateendvoucher) > 0) {
                 JOptionPane.showMessageDialog(null, "Voucher đã quá ngày sử dụng");
                 return;
             }
-            if(new ManagerVoucher().checkDaDungVoucher(v)){
+            if (new ManagerVoucher().checkDaDungVoucher(v)) {
                 JOptionPane.showMessageDialog(null, "Voucher này đã được sử dụng bởi người khác");
                 return;
             }
@@ -297,37 +303,37 @@ public class TinhTien extends javax.swing.JFrame {
         // TODO add your handling code here:
         ManagerTempData bb = new ManagerTempData();
         ManagerKhachHang kk = new ManagerKhachHang();
-        if(txtID.getText().toString().trim().equals("")){
+        if (txtID.getText().toString().trim().equals("")) {
             JOptionPane.showMessageDialog(null, "Không thể dùng điểm vì chưa nhập mã KH");
             return;
         }
-        if(!kk.checkExitsKH(txtID.getText().toString().trim())){
+        if (!kk.checkExitsKH(txtID.getText().toString().trim())) {
             JOptionPane.showMessageDialog(null, "Không tồn tại mã khách hàng này");
             return;
         }
         bb.writeTempKH(txtID.getText().toString().trim());
         String v = txtVou.getText().toString().trim();
-        if(!v.equals("")){
-            if(!new ManagerVoucher().checkExitsVoucher(v)){
+        if (!v.equals("")) {
+            if (!new ManagerVoucher().checkExitsVoucher(v)) {
                 JOptionPane.showMessageDialog(null, "Không tìm thấy voucher này");
                 return;
             }
             String datenow = getDate();
             String datestartvoucher = new ManagerVoucher().findVoucher(v).getNgayBatDau();
             String dateendvoucher = new ManagerVoucher().findVoucher(v).getNgayKetThuc();
-            if(datenow.compareTo(datestartvoucher)<0){
+            if (datenow.compareTo(datestartvoucher) < 0) {
                 JOptionPane.showMessageDialog(null, "Chưa tới ngày áp dụng được voucher này");
                 return;
             }
-            if(datenow.compareTo(datestartvoucher)<0){
+            if (datenow.compareTo(datestartvoucher) < 0) {
                 JOptionPane.showMessageDialog(null, "Chưa tới ngày áp dụng được voucher này");
                 return;
             }
-            if(datenow.compareTo(dateendvoucher)>0){
+            if (datenow.compareTo(dateendvoucher) > 0) {
                 JOptionPane.showMessageDialog(null, "Voucher đã quá ngày sử dụng");
                 return;
             }
-            if(new ManagerVoucher().checkDaDungVoucher(v)){
+            if (new ManagerVoucher().checkDaDungVoucher(v)) {
                 JOptionPane.showMessageDialog(null, "Voucher này đã được sử dụng bởi người khác");
                 return;
             }

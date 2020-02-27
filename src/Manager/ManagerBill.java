@@ -212,15 +212,15 @@ public class ManagerBill {
         }
     }
 
-    public String getDateTime(String ban) {
+        public String getDateTime(String ban) {
         try {
             String kq = "";
             ArrayList<Order> list = new ArrayList<>();
-            String sql = "select ThoiGianVao from bill where ban='" + ban + "'";
+            String sql = "select thoigianvao from bill where ban='" + ban + "'";
             Statement sta = getConnection().createStatement();
             ResultSet RS = sta.executeQuery(sql);
             if (RS.next() == true) {
-                return RS.getString("ThoiGianVao");
+                return RS.getString("thoigianvao");
             }
         } catch (SQLException ex) {
             Logger.getLogger(ManagerBill.class.getName()).log(Level.SEVERE, null, ex);

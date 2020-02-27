@@ -32,6 +32,7 @@ public class OrderUI extends javax.swing.JFrame {
         ManagerTempData bb = new ManagerTempData();
         ManagerOrder cc = new ManagerOrder();
         ManagerMenu dd = new ManagerMenu();
+        System.out.println(aa.getDateTime(bb.getTempTable()));
         txtTimeVao.setText("Thời gian vào : " + aa.getDateTime(bb.getTempTable()));
         txtTimeVao.setFont(new Font("arial", Font.BOLD, 20));
         txtTable.setText("Bàn " + bb.getTempTable());
