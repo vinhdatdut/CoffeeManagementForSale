@@ -15,6 +15,7 @@ import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -64,6 +65,25 @@ public class QLVoucher extends javax.swing.JFrame {
         }
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setDataVector(data, head);
+        TableColumn c = null;
+        c=table.getColumnModel().getColumn(0);
+        c.setPreferredWidth(150);
+        c=table.getColumnModel().getColumn(1);
+        c.setPreferredWidth(80);
+        c=table.getColumnModel().getColumn(2);
+        c.setPreferredWidth(100);
+        c=table.getColumnModel().getColumn(3);
+        c.setPreferredWidth(100);
+        c=table.getColumnModel().getColumn(4);
+        c.setPreferredWidth(100);
+        c=table.getColumnModel().getColumn(5);
+        c.setPreferredWidth(100);
+        c=table.getColumnModel().getColumn(6);
+        c.setPreferredWidth(100);
+        c=table.getColumnModel().getColumn(7);
+        c.setPreferredWidth(100);
+        c=table.getColumnModel().getColumn(8);
+        c.setPreferredWidth(200);
         txtFind.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent de) {

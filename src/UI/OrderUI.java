@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -63,11 +64,22 @@ public class OrderUI extends javax.swing.JFrame {
         row.add(null);
         row.add(null);
         row.add(null);
-        row.add(null);
-        row.add("TỔNG CỘNG : " + s + "đ");
+        row.add("TỔNG CỘNG :");
+        row.add(s + "đ");
         data.add(row);
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setDataVector(data, head);
+        TableColumn c = null;
+        c=table.getColumnModel().getColumn(0);
+        c.setPreferredWidth(30);
+        c=table.getColumnModel().getColumn(1);
+        c.setPreferredWidth(350);
+        c=table.getColumnModel().getColumn(2);
+        c.setPreferredWidth(50);
+        c=table.getColumnModel().getColumn(3);
+        c.setPreferredWidth(50);
+        c=table.getColumnModel().getColumn(4);
+        c.setPreferredWidth(120);
     }
 
     public OrderUI() {
@@ -408,8 +420,8 @@ public class OrderUI extends javax.swing.JFrame {
             return;
         }
         int row = table.getSelectedRow();
-        String s = table.getValueAt(row, 4).toString();
-        if(s.contains("TỔNG CỘNG")){
+        String s = table.getValueAt(row, 3).toString();
+        if(s.contains("TỔNG CỘNG :")){
             return;
         }
         System.out.println(s);

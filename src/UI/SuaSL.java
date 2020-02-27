@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -40,6 +41,11 @@ public class SuaSL extends javax.swing.JFrame {
         }
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setDataVector(data, head);
+        TableColumn c = null;
+        c=table.getColumnModel().getColumn(0);
+        c.setPreferredWidth(600);
+        c=table.getColumnModel().getColumn(1);
+        c.setPreferredWidth(300);
     }
     public SuaSL() {
         initComponents();

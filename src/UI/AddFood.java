@@ -21,6 +21,7 @@ import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -61,6 +62,15 @@ public class AddFood extends javax.swing.JFrame {
         }
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setDataVector(data, head);
+        TableColumn c = null;
+        c=table.getColumnModel().getColumn(0);
+        c.setPreferredWidth(30);
+        c=table.getColumnModel().getColumn(1);
+        c.setPreferredWidth(300);
+        c=table.getColumnModel().getColumn(2);
+        c.setPreferredWidth(100);
+        c=table.getColumnModel().getColumn(3);
+        c.setPreferredWidth(100);
         txtFind.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent de) {
